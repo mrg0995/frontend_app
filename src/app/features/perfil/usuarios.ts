@@ -8,6 +8,24 @@ export interface Usuario {
   foto: string;
 }
 
+// Forma en que la API devuelve el usuario (según schema.sql, tabla usuario)
+interface UsuarioApi {
+  id: number;
+  nombre_usuario: string;
+  ubicacion: string | null;
+  foto_url: string | null;
+}
+
+// Traduce lo que viene de la API a lo que usa mi front
+export function aUsuario(r: UsuarioApi): Usuario {
+  return {
+    id: r.id,
+    nombreUsuario: r.nombre_usuario,
+    ubicacion: r.ubicacion ?? '',
+    foto: r.foto_url ?? ''
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class Usuarios {
   getMiPerfil(): Observable<Usuario> {
@@ -15,12 +33,12 @@ export class Usuarios {
   }
 
   actualizarMiPerfil(datos: { nombreUsuario: string; ubicacion: string }): Observable<Usuario> {
-    // TODO: cambiar por HttpClient cuando el back de Mariel esté en develop
+    // TODO: cambiar por HttpClient cuando el back esté en develop
     return of({ id: 1, foto: '', ...datos });
   }
 
   getPerfilPublico(id: number): Observable<Usuario> {
-    // TODO: cambiar por HttpClient cuando el back de Mariel esté en develop
+    // TODO: cambiar por HttpClient cuando el back esté en develop
     return of({ id, nombreUsuario: 'usuario' + id, ubicacion: 'Madrid', foto: '' });
   }
 
