@@ -10,7 +10,7 @@ import { errMsg } from '../core/api.service';
   imports: [ReactiveFormsModule, RouterLink],
   template: `
     <div class="narrow card">
-      <h1>Entra en frontend-app</h1>
+      <h1>Entra en segunda mano</h1>
       @if (error()) { <div class="alert" role="alert">{{ error() }}</div> }
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="field">
@@ -19,9 +19,9 @@ import { errMsg } from '../core/api.service';
           @if (show('email')) { <span class="error">Introduce un email válido.</span> }
         </div>
         <div class="field">
-          <label for="password">Contraseña</label>
-          <input id="password" type="password" formControlName="password" autocomplete="current-password" [class.invalid]="show('password')">
-          @if (show('password')) { <span class="error">La contraseña es obligatoria.</span> }
+          <label for="password_hash">Contraseña</label>
+          <input id="password_hash" type="password" formControlName="password_hash" autocomplete="current-password" [class.invalid]="show('password_hash')">
+          @if (show('password_hash')) { <span class="error">La contraseña es obligatoria.</span> }
         </div>
         <button class="btn btn-primary btn-block" [disabled]="loading()">{{ loading() ? 'Entrando…' : 'Entrar' }}</button>
       </form>
@@ -38,14 +38,14 @@ export class LoginComponent {
   loading = signal(false);
   form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', Validators.required]
+    password_hash: ['', Validators.required]
   });
   show(c: string) { const x = this.form.get(c)!; return x.invalid && (x.touched || x.dirty); }
   submit() {
     this.error.set('');
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     this.loading.set(true);
-    const { email, password } = this.form.getRawValue();
+    const { email, password_hash: password } = this.form.getRawValue();
     this.auth.login(email, password).subscribe({
       next: () => {
         const ret = this.route.snapshot.queryParamMap.get('returnUrl');
@@ -72,9 +72,9 @@ function sameAs(a: string, b: string) {
       @if (error()) { <div class="alert" role="alert">{{ error() }}</div> }
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="field">
-          <label for="username">Nombre de usuario</label>
-          <input id="username" formControlName="username" autocomplete="username" [class.invalid]="show('username')">
-          @if (show('username')) { <span class="error">Entre 3 y 40 caracteres.</span> }
+          <label for="nombre_usuario">Nombre de usuario</label>
+          <input id="nombre_usuario" formControlName="nombre_usuario" autocomplete="username" [class.invalid]="show('nombre_usuario')">
+          @if (show('nombre_usuario')) { <span class="error">Entre 3 y 40 caracteres.</span> }
         </div>
         <div class="field">
           <label for="email">Email</label>
@@ -82,9 +82,9 @@ function sameAs(a: string, b: string) {
           @if (show('email')) { <span class="error">Introduce un email válido.</span> }
         </div>
         <div class="field">
-          <label for="password">Contraseña</label>
-          <input id="password" type="password" formControlName="password" autocomplete="new-password" [class.invalid]="show('password')">
-          @if (show('password')) { <span class="error">Mínimo 8 caracteres.</span> }
+          <label for="password_hash">Contraseña</label>
+          <input id="password_hash" type="password" formControlName="password_hash" autocomplete="new-password" [class.invalid]="show('password_hash')">
+          @if (show('password_hash')) { <span class="error">Mínimo 8 caracteres.</span> }
         </div>
         <div class="field">
           <label for="confirm">Repite la contraseña</label>
@@ -105,17 +105,17 @@ export class RegisterComponent {
   error = signal('');
   loading = signal(false);
   form = this.fb.nonNullable.group({
-    username: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
+    nombre_usuario: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(40)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(8)]],
+    password_hash: ['', [Validators.required, Validators.minLength(8)]],
     confirm: ['', Validators.required]
-  }, { validators: sameAs('password', 'confirm') });
+  }, { validators: sameAs('password_hash', 'confirm') });
   show(c: string) { const x = this.form.get(c)!; return x.invalid && (x.touched || x.dirty); }
   submit() {
     this.error.set('');
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }
     this.loading.set(true);
-    const { username, email, password } = this.form.getRawValue();
+    const { nombre_usuario: username, email, password_hash: password } = this.form.getRawValue();
     this.auth.register(username, email, password).subscribe({
       next: () => this.router.navigate(['/']),
       error: e => { this.error.set(errMsg(e)); this.loading.set(false); }

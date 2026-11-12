@@ -18,16 +18,16 @@ export class AuthService {
   user = signal<User | null>(readUser());
   isLogged = computed(() => !!this.user());
   role = computed(() => this.user()?.role ?? null);
-  isStaff = computed(() => ['moderator', 'admin'].includes(this.user()?.role ?? ''));
+  isStaff = computed(() => ['moderador', 'administrador'].includes(this.user()?.role ?? ''));
 
   get token(): string | null { return localStorage.getItem('token'); }
 
-  login(email: string, password: string) {
-    return this.http.post<Session>('/api/auth/login', { email, password }).pipe(tap(s => this.setSession(s)));
+  login(email: string, password_hash: string) {
+    return this.http.post<Session>('/api/auth/login', { email, password_hash }).pipe(tap(s => this.setSession(s)));
   }
 
-  register(username: string, email: string, password: string) {
-    return this.http.post<Session>('/api/auth/register', { username, email, password }).pipe(tap(s => this.setSession(s)));
+  register(nombre_usuario: string, email: string, password_hash: string) {
+    return this.http.post<Session>('/api/auth/register', { nombre_usuario, email, password_hash }).pipe(tap(s => this.setSession(s)));
   }
 
   private setSession(s: Session) {
@@ -49,8 +49,8 @@ export class AuthService {
     
   homeUrl(): string {
     switch (this.role()) {
-      case 'admin': return '/admin';
-      case 'moderator': return '/moderacion';
+      case 'administrador': return '/admin';
+      case 'moderador': return '/moderacion';
       default: return '/';
     }
   }
