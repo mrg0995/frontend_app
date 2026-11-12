@@ -19,5 +19,10 @@ export class Usuarios {
     return of({ id: 1, foto: '', ...datos });
   }
 
+  getPerfilPublico(id: number): Observable<Usuario> {
+    // TODO: cambiar por HttpClient cuando el back de Mariel esté en develop
+    return of({ id, nombreUsuario: 'usuario' + id, ubicacion: 'Madrid', foto: '' });
+  }
+
   // TODO: subirFoto(archivo: File) cuando exista el endpoint
 }

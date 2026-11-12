@@ -1,0 +1,17 @@
+@if (usuario(); as u) {
+  <h2>Perfil de {{ u.nombreUsuario }}</h2>
+
+  @if (u.foto) {
+    <img [src]="u.foto" alt="Foto de perfil" width="120" height="120" />
+  } @else {
+    <div class="sin-foto">Sin foto</div>
+  }
+
+  <p>Ubicación: {{ u.ubicacion }}</p>
+
+  <h3>Valoraciones</h3>
+  <p class="pendiente">Próximamente.</p>
+
+  <h3>Artículos publicados</h3>
+  <p class="pendiente">Próximamente.</p>
+}
