@@ -13,4 +13,11 @@ export class Usuarios {
   getMiPerfil(): Observable<Usuario> {
     return of({ id: 1, nombreUsuario: 'ana', ubicacion: 'Madrid', foto: '' });
   }
+
+  actualizarMiPerfil(datos: { nombreUsuario: string; ubicacion: string }): Observable<Usuario> {
+    // TODO: cambiar por HttpClient cuando el back de Mariel esté en develop
+    return of({ id: 1, foto: '', ...datos });
+  }
+
+  // TODO: subirFoto(archivo: File) cuando exista el endpoint
 }

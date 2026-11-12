@@ -1,5 +1,43 @@
 <h2>Mi perfil</h2>
-@if (usuario(); as u) {
-  <p>Usuario: {{ u.nombreUsuario }}</p>
-  <p>Ubicación: {{ u.ubicacion }}</p>
-}
+
+<div class="foto">
+  @if (fotoPreview(); as src) {
+    <img [src]="src" alt="Foto de perfil" width="120" height="120" />
+  } @else {
+    <div class="sin-foto">Sin foto</div>
+  }
+  <input type="file" accept="image/*" (change)="onFoto($event)" />
+  @if (errorFoto()) {
+    <p class="error">{{ errorFoto() }}</p>
+  }
+</div>
+
+<form [formGroup]="form" (ngSubmit)="guardar()">
+  <label>
+    Nombre de usuario
+    <input type="text" formControlName="nombreUsuario" />
+  </label>
+  @if (form.controls.nombreUsuario.touched && form.controls.nombreUsuario.invalid) {
+    <p class="error">
+      @if (form.controls.nombreUsuario.errors?.['required']) {
+        El nombre es obligatorio.
+      } @else {
+        Mínimo 3 caracteres.
+      }
+    </p>
+  }
+
+  <label>
+    Ubicación
+    <input type="text" formControlName="ubicacion" />
+  </label>
+  @if (form.controls.ubicacion.touched && form.controls.ubicacion.invalid) {
+    <p class="error">La ubicación es obligatoria.</p>
+  }
+
+  <button type="submit">Guardar</button>
+
+  @if (guardado()) {
+    <p class="ok">Perfil guardado.</p>
+  }
+</form> 

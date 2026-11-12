@@ -1,0 +1,5 @@
+label { display: block; margin-top: 12px; }
+input[type='text'] { display: block; padding: 6px; width: 260px; }
+.error { color: #b00020; margin: 4px 0; }
+.ok { color: #1b7f3b; }
+.sin-foto { width: 120px; height: 120px; background: #ddd; display: grid; place-items: center; }
