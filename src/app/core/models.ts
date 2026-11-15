@@ -2,7 +2,7 @@ export interface Usuario {
     id: number;
     nombre_usuario: string;
     email: string;
-    rol: 'user' | 'moderator' | 'admin';
+    rol: 'usuario' | 'moderador' | 'administrador';
     foto_url?: string | null;
     ubicacion?: string | null;
 }

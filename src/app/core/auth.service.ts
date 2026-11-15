@@ -17,8 +17,8 @@ export class AuthService {
 
     user = signal<Usuario | null>(readUser());
     isLogged = computed(() => !!this.user());
-    role = computed(() => this.user()?.role ?? null);
-    isStaff = computed(() => ['moderador', 'administrador'].includes(this.user()?.role ?? ''));
+    role = computed(() => this.user()?.rol ?? null);
+    isStaff = computed(() => ['moderador', 'administrador'].includes(this.user()?.rol ?? ''));
 
     get token(): string | null { return localStorage.getItem('token'); }
 

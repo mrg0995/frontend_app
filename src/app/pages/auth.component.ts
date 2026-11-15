@@ -115,7 +115,7 @@ export class RegisterComponent {
         this.error.set('');
         if (this.form.invalid) { this.form.markAllAsTouched(); return; }
         this.loading.set(true);
-        const { nombre_usuario: username, email, password: password } = this.form.getRawValue();
+        const { nombre_usuario: username, email, password_hash: password } = this.form.getRawValue();
         this.auth.register(username, email, password).subscribe({
             next: () => this.router.navigate(['/']),
             error: e => { this.error.set(errMsg(e)); this.loading.set(false); }
