@@ -25,9 +25,9 @@ export const CONDITION_LABEL: Record<string, string> = {
 export const CONDITIONS = Object.entries(CONDITION_LABEL).map(([value, label]) => ({ value, label }));
 
 export const ROLE_LABEL: Record<string, string> = {
-    user: 'Usuario',
-    moderator: 'Moderador',
-    admin: 'Administrador'
+    usuario: 'usuario',
+    moderador: 'moderador',
+    administrador: 'administrador'
 };
 
 export const REPORT_TYPE_LABEL: Record<string, string> = {
