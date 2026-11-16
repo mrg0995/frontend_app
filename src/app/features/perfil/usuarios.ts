@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, map, of, switchMap } from 'rxjs';
 
 // Cambiar a true cuando el back real esté disponible
-const USAR_BACK_REAL = false;
+const USAR_BACK_REAL = true;
 
 export interface Usuario {
   id: number;
