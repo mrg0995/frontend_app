@@ -1,3 +1,47 @@
 import { Routes } from '@angular/router';
+import { authGuard, roleGuard } from './core/guards';
 
-export const routes: Routes = [];
+// Este archivo reparte las secciones. Cada compañero edita las rutas de su carpeta.
+export const routes: Routes = [
+  { path: '', redirectTo: 'articulos', pathMatch: 'full' },
+  { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
+  { path: 'registro', redirectTo: 'auth/registro', pathMatch: 'full' },
+  {
+    path: 'auth',
+    loadChildren: () => import('./features/auth/auth.routes').then(m => m.AUTH_ROUTES)
+  },
+  {
+    path: 'perfil',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/perfil/perfil.routes').then(m => m.PERFIL_ROUTES)
+  },
+  {
+    path: 'articulos',
+    loadChildren: () => import('./features/articulos/articulos.routes').then(m => m.ARTICULOS_ROUTES)
+  },
+  {
+    path: 'busqueda',
+    loadChildren: () => import('./features/busqueda/busqueda.routes').then(m => m.BUSQUEDA_ROUTES)
+  },
+  {
+    path: 'mensajes',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/mensajes/mensajes.routes').then(m => m.MENSAJES_ROUTES)
+  },
+  {
+    path: 'notificaciones',
+    canActivate: [authGuard],
+    loadChildren: () => import('./features/notificaciones/notificaciones.routes').then(m => m.NOTIFICACIONES_ROUTES)
+  },
+  {
+    path: 'moderacion',
+    canActivate: [roleGuard('moderador', 'administrador')],
+    loadChildren: () => import('./features/moderacion/moderacion.routes').then(m => m.MODERACION_ROUTES)
+  },
+  {
+    path: 'admin',
+    canActivate: [roleGuard('administrador')],
+    loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
+  },
+  { path: '**', redirectTo: 'articulos' }
+];

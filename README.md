@@ -1,59 +1,23 @@
-# FrontendApp
+# Proyecto Final - Segunda Mano (Frontend)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.4.
+Angular 22. Layout del Sprint 1 y páginas de los compañeros.
 
-## Development server
+## Ejecutar en local
 
-To start a local development server, run:
+1. `pnpm install`
+2. Arrancar el backend con MySQL siguiendo su README.
+3. `pnpm start` (Angular en `http://localhost:4200`, con proxy para `/api` y `/uploads`).
 
-```bash
-ng serve
-```
+## Organización
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- `src/app/app.routes.ts`: rutas generales (no editar después de integrar el layout).
+- `src/app/features/<modulo>/<modulo>.routes.ts`: cada equipo trabaja en las rutas de su módulo.
+- `src/app/shared/`: cabecera, menú y componentes compartidos.
+- `src/styles.css`: variables de color, tipografía y clases comunes.
+- `src/app/core/auth.service.ts`: servicio de autenticación del proyecto.
 
-## Code scaffolding
+Las pantallas con el texto “Apartado pendiente de desarrollar por el equipo” son rutas de ejemplo, no funcionalidades implementadas. Consultar `docs/api.md` en el backend para el contrato de los endpoints.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Pruebas
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+`pnpm test` para las pruebas unitarias, y `pnpm build` para comprobar la compilación. Son pasos pendientes de ejecutar al instalar las dependencias.
