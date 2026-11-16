@@ -6,7 +6,10 @@
   } @else {
     <div class="sin-foto">Sin foto</div>
   }
-  <input type="file" accept="image/*" (change)="onFoto($event)" />
+  <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFoto($event)" />
+  @if (fotoGuardada()) {
+    <p class="ok">Foto guardada.</p>
+  }
   @if (errorFoto()) {
     <p class="error">{{ errorFoto() }}</p>
   }
@@ -22,17 +25,17 @@
       @if (form.controls.nombreUsuario.errors?.['required']) {
         El nombre es obligatorio.
       } @else {
-        Mínimo 3 caracteres.
+        Debe tener entre 3 y 50 caracteres.
       }
     </p>
   }
 
   <label>
-    Ubicación
+    Ubicación (opcional)
     <input type="text" formControlName="ubicacion" />
   </label>
-  @if (form.controls.ubicacion.touched && form.controls.ubicacion.invalid) {
-    <p class="error">La ubicación es obligatoria.</p>
+  @if (form.controls.ubicacion.invalid) {
+    <p class="error">Máximo 100 caracteres.</p>
   }
 
   <button type="submit">Guardar</button>
@@ -40,4 +43,7 @@
   @if (guardado()) {
     <p class="ok">Perfil guardado.</p>
   }
-</form> 
+  @if (errorGuardar()) {
+    <p class="error">{{ errorGuardar() }}</p>
+  }
+</form>
