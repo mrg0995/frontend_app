@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { SiteHeaderComponent } from './shared/site-header.component';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { SiteHeaderComponent } from './shared/site-header/site-header.component';
+import { LogoComponent } from './shared/logo.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SiteHeaderComponent],
+  imports: [RouterOutlet, RouterLink, SiteHeaderComponent, LogoComponent],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class App {}

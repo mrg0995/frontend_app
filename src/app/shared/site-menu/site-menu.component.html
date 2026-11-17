@@ -1,0 +1,111 @@
+<!-- ORDENADOR -->
+<nav class="menu" aria-label="Menú principal">
+  @if (auth.isLogged()) {
+    <a routerLink="/mensajes" routerLinkActive="activo" class="icono-link" title="Mensajes">
+      <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+        <path d="M4 5h16v11H8l-4 4z" />
+      </svg>
+      <span>Mensajes</span>
+    </a>
+    <a routerLink="/notificaciones" routerLinkActive="activo" class="icono-link" title="Avisos">
+      <svg class="icono" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4z" />
+        <path d="M10 20a2 2 0 0 0 4 0" />
+      </svg>
+      <span>Avisos</span>
+    </a>
+
+    <div class="usuario">
+      <button type="button" class="avatar-btn" (click)="cambiarDesplegable($event)" [attr.aria-expanded]="desplegable()" aria-label="Menú de usuario">
+        <span class="avatar">
+          @if (auth.user()?.foto_url) {
+            <img [src]="auth.user()?.foto_url" alt="" />
+          } @else {
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="8.5" r="4" />
+              <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" />
+            </svg>
+          }
+        </span>
+        <svg class="flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+
+      @if (desplegable()) {
+        <div class="desplegable" (click)="cerrar()">
+          <div class="quien">
+            <strong>{{ auth.user()?.nombre_usuario }}</strong>
+            <span class="small muted">{{ auth.role() }}</span>
+          </div>
+          <a routerLink="/perfil">Mi perfil</a>
+          @if (auth.isStaff()) {
+            <a routerLink="/moderacion">Moderación</a>
+          }
+          @if (auth.role() === 'administrador') {
+            <a routerLink="/admin">Administración</a>
+          }
+          <button type="button" class="salir" (click)="auth.logout()">Cerrar sesión</button>
+        </div>
+      }
+    </div>
+
+    <a routerLink="/articulos/nuevo" class="btn btn-accent">+ Vender</a>
+  } @else {
+    <a routerLink="/auth/login" class="btn btn-outline">Regístrate o inicia sesión</a>
+    <a routerLink="/auth/login" class="btn btn-accent">+ Vender</a>
+  }
+</nav>
+
+<!-- MÓVIL -->
+<button type="button" class="hamburguesa" (click)="movil.set(!movil())" [attr.aria-expanded]="movil()" [attr.aria-label]="movil() ? 'Cerrar menú' : 'Abrir menú'">
+  @if (movil()) {
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  } @else {
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  }
+</button>
+
+@if (movil()) {
+  <nav class="panel-movil" aria-label="Menú" (click)="movil.set(false)">
+    @if (auth.isLogged()) {
+      <div class="quien">
+        <span class="avatar">
+          @if (auth.user()?.foto_url) {
+            <img [src]="auth.user()?.foto_url" alt="" />
+          } @else {
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <circle cx="12" cy="8.5" r="4" />
+              <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" />
+            </svg>
+          }
+        </span>
+        <div>
+          <strong>{{ auth.user()?.nombre_usuario }}</strong><br />
+          <span class="small muted">{{ auth.role() }}</span>
+        </div>
+      </div>
+    }
+    <a routerLink="/articulos">Artículos</a>
+    @if (auth.isLogged()) {
+      <a routerLink="/perfil">Mi perfil</a>
+      <a routerLink="/mensajes">Mensajes</a>
+      <a routerLink="/notificaciones">Avisos</a>
+      @if (auth.isStaff()) {
+        <a routerLink="/moderacion">Moderación</a>
+      }
+      @if (auth.role() === 'administrador') {
+        <a routerLink="/admin">Administración</a>
+      }
+      <a routerLink="/articulos/nuevo" class="btn btn-accent">+ Vender</a>
+      <button type="button" class="salir" (click)="auth.logout()">Cerrar sesión</button>
+    } @else {
+      <a routerLink="/auth/login" class="btn btn-accent">Inicia sesión</a>
+      <a routerLink="/auth/registro" class="btn btn-outline">Crear cuenta</a>
+    }
+  </nav>
+}

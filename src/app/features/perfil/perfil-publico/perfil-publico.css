@@ -1,2 +1,71 @@
-.sin-foto { width: 120px; height: 120px; background: #ddd; display: grid; place-items: center; }
-.pendiente { color: #777; }
+/* Tarjeta blanca dividida en dos columnas: la foto a la izquierda y el nombre y la
+   ubicación a la derecha. Valoraciones y Artículos ocupan las dos columnas */
+:host {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 1.25rem;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  box-shadow: 0 3px 16px rgba(20, 33, 61, 0.04);
+}
+
+img,
+.sin-foto {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  object-fit: cover;
+}
+
+.sin-foto {
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-soft);
+  color: var(--color-muted);
+  font-size: 0.85rem;
+}
+
+h2 {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+img + p,
+.sin-foto + p {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin: 0.3rem 0 0;
+  color: var(--color-muted);
+}
+
+h3,
+.pendiente {
+  grid-column: 1 / -1;
+}
+
+h3 {
+  margin: 1.25rem 0 0.3rem;
+  font-size: 1.1rem;
+}
+
+h3:first-of-type {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.pendiente {
+  margin: 0;
+  color: var(--color-muted);
+}

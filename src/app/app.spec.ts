@@ -20,6 +20,7 @@ describe('App', () => {
     const fixture = TestBed.createComponent(App);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('Segunda Mano');
+    expect(compiled.querySelector('app-site-header')).toBeTruthy();
+    expect(compiled.textContent).toContain('rejoya');
   });
 });

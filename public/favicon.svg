@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72">
+    <!-- Icono de rejoya: la «j» con el diamante dorado sobre navy -->
+    <rect width="72" height="72" rx="16" fill="#14213d"/>
+    <path d="M40 30 V54 C40 61 36 64 29 64 H25 V57 H28 C31 57 32 56 32 53 V30 Z" fill="#ffffff"/>
+    <g transform="translate(36 17) scale(.75)">
+        <polygon points="-12,-8 12,-8 17,-2 0,14 -17,-2" fill="#c9a227"/>
+        <g fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" opacity=".85">
+        <polyline points="-17,-2 17,-2"/><polyline points="-12,-8 -5,-2 0,14 5,-2 12,-8"/><polyline points="-5,-2 0,-8 5,-2"/>
+        </g>
+    </g>
+</svg>

@@ -10,7 +10,16 @@ import { errMsg } from '../core/api.service';
     imports: [ReactiveFormsModule, RouterLink],
     template: `
     <div class="narrow card">
-      <h1>Entra en segunda mano</h1>
+      <div class="auth-cabecera">
+        <span class="auth-icono">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="8.5" r="4" />
+            <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" />
+          </svg>
+        </span>
+        <h1>Inicia sesión</h1>
+        <p class="muted">Bienvenido de nuevo a rejoya</p>
+      </div>
       @if (error()) { <div class="alert" role="alert">{{ error() }}</div> }
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="field">
@@ -68,7 +77,16 @@ function sameAs(a: string, b: string) {
     imports: [ReactiveFormsModule, RouterLink],
     template: `
     <div class="narrow card">
-      <h1>Crea tu cuenta</h1>
+      <div class="auth-cabecera">
+        <span class="auth-icono">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <circle cx="12" cy="8.5" r="4" />
+            <path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" />
+          </svg>
+        </span>
+        <h1>Crea tu cuenta</h1>
+        <p class="muted">Únete y empieza a vender tus joyas</p>
+      </div>
       @if (error()) { <div class="alert" role="alert">{{ error() }}</div> }
       <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
         <div class="field">
@@ -89,7 +107,7 @@ function sameAs(a: string, b: string) {
         <div class="field">
           <label for="confirm">Repite la contraseña</label>
           <input id="confirm" type="password" formControlName="confirm" autocomplete="new-password"
-                 [class.invalid]="form.hasError('mismatch') && form.get('confirm')!.touched">
+            [class.invalid]="form.hasError('mismatch') && form.get('confirm')!.touched">
           @if (form.hasError('mismatch') && form.get('confirm')!.touched) { <span class="error">Las contraseñas no coinciden.</span> }
         </div>
         <button class="btn btn-primary btn-block" [disabled]="loading()">{{ loading() ? 'Creando…' : 'Crear cuenta' }}</button>
