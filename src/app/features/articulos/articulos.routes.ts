@@ -22,7 +22,6 @@ export const ARTICULOS_ROUTES: Routes = [
   {
     // El detalle es público: no lleva authGuard
     path: ':id',
-    loadComponent: () => import('../../shared/pagina-pendiente.component').then(m => m.PaginaPendienteComponent),
-    data: { titulo: 'Detalle del artículo', detalle: 'Aquí irán las fotos y los datos del artículo.' }
+      loadComponent: () => import('./detalle-articulo/detalle-articulo').then(m => m.DetalleArticulo)
   }
 ];

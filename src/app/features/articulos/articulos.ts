@@ -10,7 +10,7 @@ import {
   EstadoConservacion,
   Foto
 } from '../../core/models';
-import { CATEGORIAS_DEMO } from '../../core/datos-demo';
+import { CATEGORIAS_DEMO, buscarEnDemo } from '../../core/datos-demo';
 
 /**
  * Cambiar a true cuando el back de artículos y fotos esté en develop.
@@ -69,7 +69,7 @@ export class Articulos {
   /** Detalle público: solo publicados y vendidos. GET /api/articulos/:id */
   getArticulo(id: number): Observable<Articulo> {
     if (!USAR_BACK_REAL) {
-      const a = this.demoBuscar(id);
+      const a = this.demoBuscar(id) ?? this.demoDeLaBusqueda(id);
       if (!a || (a.estado !== 'publicado' && a.estado !== 'vendido')) {
         return this.demoError(404, 'Artículo no encontrado');
       }
@@ -211,6 +211,30 @@ export class Articulos {
     return this.demo.find(a => a.id === id);
   }
 
+  /**
+   * Los artículos de prueba de la búsqueda (core/datos-demo.ts) solo tienen el formato tarjeta.
+   * Para poder abrir su detalle sin back, se completan aquí con datos inventados.
+   */
+  private demoDeLaBusqueda(id: number): Articulo | undefined {
+    const t = buscarEnDemo({ por_pagina: 1000 }).articulos.find(x => x.id === id) as
+      (ArticuloTarjeta & { id_categoria?: number }) | undefined;
+    if (!t) return undefined;
+    return {
+      id: t.id,
+      titulo: t.titulo,
+      descripcion: 'Artículo de prueba de la búsqueda mientras el back no está disponible.',
+      precio: t.precio,
+      estado_conservacion: t.estado_conservacion,
+      estado: t.estado,
+      ubicacion: t.ubicacion,
+      categoria: this.demoCategoria(t.id_categoria ?? 5),
+      vendedor: { ...t.vendedor, foto_url: null, ubicacion: t.ubicacion },
+      fotos: [],
+      fecha_creacion: '2026-11-16T10:00:00.000Z',
+      fecha_actualizacion: '2026-11-16T10:00:00.000Z'
+    };
+  }
+
   private demoCategoria(id: number): Categoria {
     return CATEGORIAS_DEMO.find(c => c.id === id) ?? CATEGORIAS_DEMO[CATEGORIAS_DEMO.length - 1];
   }
@@ -252,7 +276,10 @@ function copia(a: Articulo): Articulo {
   return { ...a, categoria: { ...a.categoria }, vendedor: { ...a.vendedor }, fotos: a.fotos.map(f => ({ ...f })) };
 }
 
-/** Un artículo de prueba en cada estado, del usuario que ha iniciado sesión */
+/**
+ * Un artículo de prueba en cada estado, del usuario que ha iniciado sesión.
+ * Los ids empiezan en 101 para no coincidir con los artículos de prueba de la búsqueda (1 a 16).
+ */
 function crearDemo(idUsuario: number, nombre: string): Articulo[] {
   const vendedor = { id: idUsuario, nombre_usuario: nombre, foto_url: null, ubicacion: 'Madrid' };
   const base = (id: number, titulo: string, precio: number, estado: EstadoArticulo, cat: number, conservacion: EstadoConservacion, fotos = 0): Articulo => ({
@@ -270,10 +297,10 @@ function crearDemo(idUsuario: number, nombre: string): Articulo[] {
     fecha_actualizacion: '2026-11-16T10:00:00.000Z'
   });
   return [
-    base(1, 'Anillo de plata con circonita', 45, 'borrador', 1, 'como_nuevo'),
-    base(2, 'Collar de perlas cultivadas', 120, 'publicado', 2, 'buen_estado', 1),
-    base(3, 'Pendientes de aro dorados', 25.5, 'vendido', 3, 'aceptable', 1),
-    base(4, 'Pulsera de cuero trenzado', 18, 'en_revision', 4, 'nuevo', 1),
-    base(5, 'Broche vintage de esmalte', 60, 'retirado', 5, 'buen_estado', 1)
+    base(101, 'Anillo de plata con circonita', 45, 'borrador', 1, 'como_nuevo'),
+    base(102, 'Collar de perlas cultivadas', 120, 'publicado', 2, 'buen_estado', 1),
+    base(103, 'Pendientes de aro dorados', 25.5, 'vendido', 3, 'aceptable', 1),
+    base(104, 'Pulsera de cuero trenzado', 18, 'en_revision', 4, 'nuevo', 1),
+    base(105, 'Broche vintage de esmalte', 60, 'retirado', 5, 'buen_estado', 1)
   ];
 }

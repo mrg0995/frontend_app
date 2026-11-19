@@ -1,0 +1,85 @@
+@if (cargando()) {
+  <p class="muted">Cargando el artículo…</p>
+} @else if (error()) {
+  <div class="card no-encontrado">
+    <h1>Artículo no disponible</h1>
+    <p class="muted">{{ error() }}</p>
+    <a routerLink="/busqueda" class="btn btn-primary">Ver otras joyas</a>
+  </div>
+} @else if (articulo(); as a) {
+  <a routerLink="/busqueda" class="volver small">← Volver a la búsqueda</a>
+
+  <div class="detalle">
+    <!-- Galería -->
+    <div class="galeria">
+      <div class="foto-grande">
+        @if (a.fotos[fotoActual()]?.url; as url) {
+          <img [src]="url" [alt]="a.titulo" />
+        } @else {
+          <svg class="sin-foto" viewBox="-21 -13 42 34" aria-hidden="true">
+            <polygon points="-12,-12 12,-12 20,-4 0,20 -20,-4" />
+          </svg>
+        }
+        @if (esMio() || a.estado === 'vendido') {
+          <span class="etiqueta" [class]="a.estado">{{ estados[a.estado] }}</span>
+        }
+      </div>
+
+      @if (a.fotos.length > 1) {
+        <div class="miniaturas">
+          @for (f of a.fotos; track f.id; let i = $index) {
+            <button type="button" class="miniatura" [class.activa]="i === fotoActual()" (click)="verFoto(i)" [attr.aria-label]="'Ver foto ' + (i + 1)">
+              @if (f.url) { <img [src]="f.url" alt="" /> } @else { <span>{{ i + 1 }}</span> }
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Datos -->
+    <div class="info">
+      <p class="precio">{{ precio() }}</p>
+      <h1>{{ a.titulo }}</h1>
+
+      <ul class="datos">
+        <li><span class="muted">Categoría</span> {{ a.categoria.nombre }}</li>
+        <li><span class="muted">Estado</span> {{ conservacion[a.estado_conservacion] }}</li>
+        @if (a.ubicacion) {
+          <li><span class="muted">Ubicación</span> {{ a.ubicacion }}</li>
+        }
+      </ul>
+
+      <h2>Descripción</h2>
+      <p class="descripcion">{{ a.descripcion }}</p>
+
+      <!-- Vendedor -->
+      <div class="vendedor">
+        <span class="avatar">
+          @if (a.vendedor.foto_url) {
+            <img [src]="a.vendedor.foto_url" alt="" />
+          } @else {
+            <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8.5" r="4" /><path d="M4 20c0-4.4 3.6-7 8-7s8 2.6 8 7z" /></svg>
+          }
+        </span>
+        <div>
+          <span class="small muted">Vendido por</span><br />
+          <a [routerLink]="['/perfil', a.vendedor.id]">{{ a.vendedor.nombre_usuario }}</a>
+        </div>
+      </div>
+
+      <!-- Acciones -->
+      <div class="acciones">
+        @if (esMio()) {
+          @if (a.estado === 'borrador' || a.estado === 'publicado') {
+            <a class="btn btn-primary" [routerLink]="['/articulos', a.id, 'editar']">Editar artículo</a>
+          }
+          <a class="btn btn-outline" routerLink="/mis-articulos">Mis artículos</a>
+        } @else {
+          <!-- Contactar (sprint 3) y Reportar (sprint 4) todavía no hacen nada -->
+          <button type="button" class="btn btn-accent" disabled title="Disponible próximamente">Contactar con el vendedor</button>
+          <button type="button" class="btn btn-outline btn-sm reportar" disabled title="Disponible próximamente">Reportar</button>
+        }
+      </div>
+    </div>
+  </div>
+}
