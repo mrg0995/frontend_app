@@ -1,0 +1,197 @@
+/* ---------- Cabecera de resultados ---------- */
+.resultados-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.resultados-cabecera h1 {
+  margin: 0;
+}
+
+.resultados-cabecera p {
+  margin: 0.2rem 0 0;
+}
+
+.acciones-cabecera {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.orden-etiqueta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
+/* El desplegable del orden con forma de píldora y su propia flecha */
+.orden {
+  appearance: none;
+  padding: 0.55rem 2.4rem 0.55rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--color-primary);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.orden-caja {
+  position: relative;
+  display: inline-flex;
+}
+
+.orden-flecha {
+  position: absolute;
+  right: 0.9rem;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  color: var(--color-primary);
+  pointer-events: none;
+}
+
+.orden:hover {
+  border-color: var(--color-accent);
+}
+
+.orden:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+@supports (appearance: base-select) {
+  .orden,
+  .orden::picker(select) {
+    appearance: base-select;
+  }
+
+  .orden::picker-icon {
+    display: none;
+  }
+
+  .orden::picker(select) {
+    margin-top: 0.4rem;
+    padding: 0.35rem;
+    border: 1px solid var(--color-border);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(20, 33, 61, 0.12);
+  }
+
+  .orden option {
+    padding: 0.55rem 0.75rem;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  .orden option:hover {
+    background: var(--color-hover);
+  }
+
+  .orden option:checked {
+    background: var(--color-accent-soft);
+    font-weight: 600;
+  }
+
+  .orden option::checkmark {
+    display: none;
+  }
+}
+
+.boton-filtros {
+  display: none;
+}
+
+/* ---------- Filtros activos ---------- */
+.etiquetas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.etiqueta {
+  padding: 0.3rem 0.75rem;
+  border: 1px solid var(--color-accent);
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.limpiar {
+  border: 0;
+  background: transparent;
+  color: var(--color-muted);
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---------- Panel de filtros + resultados ---------- */
+.contenido-busqueda {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.panel {
+  position: sticky;
+  top: 90px;
+  padding: 1.25rem;
+}
+
+.precios {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.vacio {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+}
+
+.vacio h2 {
+  margin: 0 0 0.3rem;
+  font-size: 1.2rem;
+}
+
+/* ---------- Paginación ---------- */
+.paginacion {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 760px) {
+  .contenido-busqueda {
+    grid-template-columns: 1fr;
+  }
+
+  .boton-filtros {
+    display: inline-flex;
+  }
+
+  .panel {
+    display: none;
+    position: static;
+  }
+
+  .panel.abierto {
+    display: block;
+  }
+}

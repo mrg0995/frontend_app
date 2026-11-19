@@ -4,9 +4,6 @@ import { Observable, delay, map, of } from 'rxjs';
 import { ArticuloTarjeta, EstadoConservacion } from './models';
 import { buscarEnDemo } from './datos-demo';
 
-// Cambiar a true cuando se suba GET /api/articulos con los filtros (Back 3)
-const USAR_BACK_REAL = false;
-
 /** Orden de los resultados */
 export type OrdenBusqueda = 'recientes' | 'precio_asc' | 'precio_desc';
 
