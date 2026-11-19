@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { PerfilPublico } from './perfil-publico';
 
 describe('PerfilPublico', () => {
@@ -8,6 +11,7 @@ describe('PerfilPublico', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [PerfilPublico],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PerfilPublico);
