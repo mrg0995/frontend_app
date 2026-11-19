@@ -3,5 +3,32 @@
   <router-outlet />
 </main>
 <footer class="pie">
-  <div class="container">Proyecto Final · Segunda Mano</div>
+  <div class="container pie-columnas">
+    <div class="pie-marca">
+      <app-logo [claro]="true" />
+      <p>
+        Dale una segunda vida a tus joyas. Compra y vende anillos, collares, pendientes y pulseras
+        entre particulares.
+      </p>
+    </div>
+    <div>
+      <h3>rejoya</h3>
+      <a routerLink="/articulos">Explorar artículos</a>
+      <a routerLink="/articulos/nuevo">Vender una joya</a>
+      <a routerLink="/busqueda">Buscar</a>
+    </div>
+    <div>
+      <h3>Ayuda</h3>
+      <a routerLink="/ayuda">Cómo funciona</a>
+      <a routerLink="/ayuda">Preguntas frecuentes</a>
+    </div>
+    <div>
+      <h3>Legal</h3>
+      <a routerLink="/ayuda">Aviso legal</a>
+    </div>
+  </div>
+  <div class="container pie-final">
+    <span>© 2026 rejoya</span>
+    <span>Proyecto Final · Máster Full Stack · UNIR</span>
+  </div>
 </footer>

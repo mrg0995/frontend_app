@@ -1,41 +1,221 @@
-/* Estilos comunes de todas las páginas */
+/* Estilos comunes de todas las páginas · paleta rejoya: navy, blanco y dorado (regla 60-30-10) */
 :root {
-  --color-primary: #244a46;
-  --color-primary-dark: #183a36;
-  --color-accent: #c48f58;
-  --color-background: #f7f6f2;
+  --color-primary: #14213d; /* navy: botones, enlaces y textos destacados (30 %) */
+  --color-primary-dark: #0b1426; /* navy más oscuro: hover de los botones */
+  --color-accent: #c9a227; /* dorado: logo, botón «+ Vender» y foco (10 %) */
+  --color-accent-dark: #b38f1f; /* dorado más oscuro: hover del botón dorado */
+  --color-accent-soft: #fbf5e3; /* dorado muy claro: fondo del icono de usuario */
+  --color-background: #f6f7f9; /* fondo de la página (60 %, con el blanco de las tarjetas) */
   --color-text: #292d2b;
-  --color-muted: #64716c;
-  --color-border: #dfdfd8;
-  --color-hover: #e9efec;
+  --color-muted: #5f6b7a;
+  --color-border: #e3e6eb;
+  --color-hover: #f1f3f7;
   --color-error: #a62c38;
   --radius: 8px;
-  --font-base: Arial, Helvetica, sans-serif;
+  --font-base: 'Inter', Arial, Helvetica, sans-serif;
 }
 
-* { box-sizing: border-box; }
-html { min-height: 100%; }
-body { margin: 0; min-height: 100vh; font-family: var(--font-base); color: var(--color-text); background: var(--color-background); line-height: 1.5; }
-a { color: var(--color-primary); }
-button, input, textarea, select { font: inherit; }
-h1 { margin: 0 0 1.25rem; font-size: clamp(1.5rem, 3vw, 2rem); line-height: 1.2; }
-.container { max-width: 1120px; margin: 0 auto; padding-left: 1.25rem; padding-right: 1.25rem; }
-.narrow { max-width: 480px; margin: 1rem auto; }
-.card { background: #fff; border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 3px 16px rgba(20, 30, 28, .035); }
-.muted { color: var(--color-muted); }
-.small { font-size: .9rem; }
-.field { display: flex; flex-direction: column; gap: .3rem; margin-bottom: 1rem; }
-.field label { font-weight: 600; }
-.field input, .field textarea, .field select { display: block; width: 100%; padding: .7rem .8rem; border: 1px solid #b8c3be; border-radius: var(--radius); background: #fff; color: var(--color-text); }
-.field input:focus, .field textarea:focus, .field select:focus { outline: 2px solid var(--color-accent); outline-offset: 1px; }
-.field .invalid { border-color: var(--color-error); }
-.error { color: var(--color-error); font-size: .85rem; }
-.alert { padding: .8rem 1rem; border: 1px solid #e8b8ba; background: #fff3f3; color: var(--color-error); border-radius: var(--radius); margin-bottom: 1rem; }
-.btn { display: inline-flex; justify-content: center; align-items: center; padding: .65rem 1.1rem; font-weight: 600; border: 1px solid transparent; border-radius: var(--radius); text-decoration: none; cursor: pointer; }
-.btn-primary { background: var(--color-primary); color: #fff; }
-.btn-primary:hover { background: var(--color-primary-dark); }
-.btn-outline { background: #fff; color: var(--color-primary); border-color: var(--color-primary); }
-.btn-outline:hover { background: var(--color-hover); }
-.btn-block { width: 100%; }
-.btn:disabled { opacity: .65; cursor: not-allowed; }
-@media (max-width: 600px) { .card { padding: 1.15rem; } .container { padding-left: 1rem; padding-right: 1rem; } }
+/* ---------- Base ---------- */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-base);
+  color: var(--color-text);
+  background: var(--color-background);
+  line-height: 1.5;
+}
+
+a {
+  color: var(--color-primary);
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+/* ---------- Estructura de las páginas ---------- */
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+.narrow {
+  max-width: 480px;
+  margin: 1.5rem auto 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 3px 16px rgba(20, 33, 61, 0.04);
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+.small {
+  font-size: 0.9rem;
+}
+
+/* ---------- Formularios ---------- */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid #cfd5dd;
+  border-radius: var(--radius);
+  background: #fff;
+  color: var(--color-text);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.field .invalid {
+  border-color: var(--color-error);
+}
+
+.error {
+  color: var(--color-error);
+  font-size: 0.85rem;
+}
+
+.alert {
+  padding: 0.8rem 1rem;
+  border: 1px solid #e8b8ba;
+  background: #fff3f3;
+  color: var(--color-error);
+  border-radius: var(--radius);
+  margin-bottom: 1rem;
+}
+
+/* ---------- Botones ---------- */
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.2rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.btn-outline {
+  background: #fff;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-outline:hover {
+  background: var(--color-hover);
+}
+
+/* Botón de acento (dorado), usado en el logo y en el botón «+ Vender» */
+.btn-accent {
+  background: var(--color-accent);
+  color: var(--color-primary);
+}
+
+.btn-accent:hover {
+  background: var(--color-accent-dark);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* ---------- Iconos ---------- */
+.icono {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex: none;
+}
+
+/* ---------- Login y registro ---------- */
+/* Cabecera del login y del registro: icono de usuario y titulo */
+.auth-cabecera {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-cabecera h1 {
+  margin: 0.8rem 0 0.2rem;
+}
+
+.auth-cabecera p {
+  margin: 0;
+}
+
+.auth-icono {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto;
+  border-radius: 50%;
+  background: var(--color-accent-soft);
+  border: 2px solid var(--color-accent);
+  color: var(--color-primary);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.auth-icono svg {
+  width: 52px;
+  height: 52px;
+}
