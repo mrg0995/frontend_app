@@ -3,7 +3,11 @@ import { authGuard, roleGuard } from './core/guards';
 
 // Este archivo reparte las secciones. Cada compañero edita las rutas de su carpeta.
 export const routes: Routes = [
-  { path: '', redirectTo: 'articulos', pathMatch: 'full' },
+  {
+    path: '',
+    pathMatch: 'full',
+    loadChildren: () => import('./features/inicio/inicio.routes').then(m => m.INICIO_ROUTES)
+  },
   { path: 'login', redirectTo: 'auth/login', pathMatch: 'full' },
   { path: 'registro', redirectTo: 'auth/registro', pathMatch: 'full' },
   {
@@ -43,5 +47,5 @@ export const routes: Routes = [
     canActivate: [roleGuard('administrador')],
     loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
-  { path: '**', redirectTo: 'articulos' }
+  { path: '**', redirectTo: '' }
 ];
