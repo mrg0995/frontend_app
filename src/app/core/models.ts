@@ -7,6 +7,25 @@ export interface Usuario {
     ubicacion?: string | null;
 }
 
+export type EstadoConservacion = 'nuevo' | 'como_nuevo' | 'buen_estado' | 'aceptable';
+
+export type EstadoArticulo = 'borrador' | 'publicado' | 'en_revision' | 'retirado' | 'vendido';
+
+/**
+ * Artículo tal como llega en los listados: búsqueda, inicio, Mis artículos y perfil público.
+ * Es el formato «tarjeta» del contrato (docs/api.md).
+ */
+export interface ArticuloTarjeta {
+    id: number;
+    titulo: string;
+    precio: number;
+    estado_conservacion: EstadoConservacion;
+    estado: EstadoArticulo;
+    ubicacion: string | null;
+    foto_portada: string | null;
+    vendedor: { id: number; nombre_usuario: string };
+}
+
 export const STATUS_LABEL: Record<string, string> = {
     borrador: 'Borrador',
     publicado: 'Publicado',
@@ -18,7 +37,7 @@ export const STATUS_LABEL: Record<string, string> = {
 export const CONDITION_LABEL: Record<string, string> = {
     nuevo: 'Nuevo',
     como_nuevo: 'Como nuevo',
-    bueno: 'Bueno',
+    buen_estado: 'Buen estado',
     aceptable: 'Aceptable'
 };
 

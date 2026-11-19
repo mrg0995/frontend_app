@@ -171,6 +171,11 @@ h1 {
   background: var(--color-accent-dark);
 }
 
+.btn-sm {
+  padding: 0.4rem 0.9rem;
+  font-size: 0.85rem;
+}
+
 .btn-block {
   width: 100%;
 }
@@ -218,4 +223,12 @@ h1 {
 .auth-icono svg {
   width: 52px;
   height: 52px;
+}
+
+/* ---------- Listados de artículos ---------- */
+/* Rejilla de tarjetas: tantas columnas como quepan, de 160 px como mínimo (dos en el móvil) */
+.rejilla-articulos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1rem;
 }
