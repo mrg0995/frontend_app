@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, inject, signal } from '@angular/core';
+import { Router, RouterLink, NavigationEnd} from '@angular/router';
 import { SiteMenuComponent } from '../site-menu/site-menu.component';
 import { LogoComponent } from '../logo.component';
 
@@ -15,6 +15,18 @@ import { LogoComponent } from '../logo.component';
 })
 export class SiteHeaderComponent {
   private router = inject(Router);
+
+  /** Texto de la búsqueda actual (?q= de la URL), para que el buscador lo enseñe */
+  textoBuscado = signal('');
+
+  constructor() {
+    // Si se quita la búsqueda, el buscador se vacía.
+    this.router.events.subscribe((evento) => {
+      if (evento instanceof NavigationEnd) {
+        this.textoBuscado.set(this.router.parseUrl(this.router.url).queryParams['q'] ?? '');
+      }
+    });
+  }
 
   /**
    * Lleva a la página de búsqueda con el texto escrito, por ejemplo /busqueda?q=anillo.

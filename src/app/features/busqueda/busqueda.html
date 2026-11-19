@@ -1,0 +1,122 @@
+<!-- Cabecera de resultados: título, número de joyas y orden -->
+<div class="resultados-cabecera">
+  <div>
+    <h1>
+      @if (filtros().q) {
+        Resultados para «{{ filtros().q }}»
+      } @else {
+        Todas las joyas
+      }
+    </h1>
+    @if (articulos() !== null) {
+      <p class="muted">{{ totalArticulos() }} {{ totalArticulos() === 1 ? 'joya' : 'joyas' }}</p>
+    }
+  </div>
+
+  <div class="acciones-cabecera">
+    <!-- Solo en el móvil: abre y cierra el panel de filtros -->
+    <button type="button" class="btn btn-outline btn-sm boton-filtros" (click)="filtrosMovil.set(!filtrosMovil())">
+      Filtros @if (numFiltros()) { ({{ numFiltros() }}) }
+    </button>
+
+    <label class="orden-etiqueta">
+      Ordenar por
+      <span class="orden-caja">
+        <select class="orden" [value]="filtros().orden ?? 'recientes'" (change)="cambiarOrden($any($event.target).value)">
+          <option value="recientes">Más recientes</option>
+          <option value="precio_asc">Precio: de menor a mayor</option>
+          <option value="precio_desc">Precio: de mayor a menor</option>
+        </select>
+        <svg class="orden-flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
+    </label>
+  </div>
+</div>
+
+<!-- Filtros activos: se quitan con la ✕ -->
+@if (etiquetas().length) {
+  <div class="etiquetas">
+    @for (e of etiquetas(); track e.clave) {
+      <button type="button" class="etiqueta" (click)="quitarFiltro(e.clave)" [attr.aria-label]="'Quitar filtro ' + e.texto">
+        {{ e.texto }} <span aria-hidden="true">✕</span>
+      </button>
+    }
+    <button type="button" class="limpiar" (click)="limpiarFiltros()">Quitar todo</button>
+  </div>
+}
+
+<div class="contenido-busqueda">
+  <!-- Panel de filtros -->
+  <aside class="card panel" [class.abierto]="filtrosMovil()">
+    <form [formGroup]="form" (ngSubmit)="aplicarFiltros()">
+      <div class="field">
+        <label for="id_categoria">Categoría</label>
+        <select id="id_categoria" formControlName="id_categoria">
+          <option value="">Todas</option>
+          @for (c of categorias(); track c.id) {
+            <option [value]="c.id">{{ c.nombre }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="precio_min">Precio (€)</label>
+        <div class="precios">
+          <input id="precio_min" type="number" min="0" placeholder="Mín." formControlName="precio_min" />
+          <input id="precio_max" type="number" min="0" placeholder="Máx." formControlName="precio_max" aria-label="Precio máximo" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="estado_conservacion">Estado</label>
+        <select id="estado_conservacion" formControlName="estado_conservacion">
+          <option value="">Cualquiera</option>
+          @for (e of estados; track e[0]) {
+            <option [value]="e[0]">{{ e[1] }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="ubicacion">Ubicación</label>
+        <input id="ubicacion" type="text" placeholder="Ej.: Madrid" formControlName="ubicacion" />
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">Aplicar filtros</button>
+    </form>
+  </aside>
+
+  <!-- Resultados -->
+  <section>
+    @if (error()) {
+      <div class="alert" role="alert">{{ error() }}</div>
+    } @else if (articulos() === null) {
+      <p class="muted">Buscando…</p>
+    } @else if (articulos()!.length === 0) {
+      <div class="card vacio">
+        <h2>No hemos encontrado joyas</h2>
+        <p class="muted">Prueba con otras palabras o quita algún filtro.</p>
+        @if (etiquetas().length) {
+          <button type="button" class="btn btn-outline" (click)="limpiarFiltros()">Ver todas las joyas</button>
+        }
+      </div>
+    } @else {
+      <div class="rejilla-articulos">
+        @for (a of articulos(); track a.id) {
+          <app-articulo-card [articulo]="a" />
+        }
+      </div>
+
+      <!-- Paginación: solo si hay más de una página -->
+      @if (totalPaginas() > 1) {
+        <nav class="paginacion" aria-label="Páginas de resultados">
+          <button type="button" class="btn btn-outline btn-sm" [disabled]="pagina() === 1" (click)="irAPagina(pagina() - 1)">← Anterior</button>
+          <span class="muted">Página {{ pagina() }} de {{ totalPaginas() }}</span>
+          <button type="button" class="btn btn-outline btn-sm" [disabled]="pagina() === totalPaginas()" (click)="irAPagina(pagina() + 1)">Siguiente →</button>
+        </nav>
+      }
+    }
+  </section>
+</div>

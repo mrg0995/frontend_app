@@ -3,7 +3,6 @@ import { Routes } from '@angular/router';
 export const BUSQUEDA_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('../../shared/pagina-pendiente.component').then(m => m.PaginaPendienteComponent),
-    data: { titulo: 'Búsqueda', detalle: 'Los filtros y resultados se añadirán en esta sección.' }
+    loadComponent: () => import('./busqueda').then(m => m.Busqueda)
   }
 ];
