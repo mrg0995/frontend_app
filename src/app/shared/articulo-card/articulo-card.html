@@ -1,0 +1,32 @@
+<article class="tarjeta">
+  <a class="enlace" [routerLink]="['/articulos', articulo().id]">
+    <div class="foto">
+      @if (articulo().foto_portada; as foto) {
+        <img [src]="foto" [alt]="articulo().titulo" loading="lazy" />
+      } @else {
+        <svg class="sin-foto" viewBox="-21 -13 42 34" aria-hidden="true">
+          <polygon points="-12,-12 12,-12 20,-4 0,20 -20,-4" />
+        </svg>
+      }
+
+      @if (mostrarEstado() || articulo().estado === 'vendido') {
+        <span class="etiqueta" [class]="articulo().estado">{{ estados[articulo().estado] }}</span>
+      }
+    </div>
+
+    <div class="datos">
+      <strong class="precio">{{ precio() }}</strong>
+      <h3 class="titulo">{{ articulo().titulo }}</h3>
+      <p class="detalle">
+        {{ conservacion[articulo().estado_conservacion] }}
+        @if (articulo().ubicacion) {
+          · {{ articulo().ubicacion }}
+        }
+      </p>
+    </div>
+  </a>
+
+  <div class="acciones">
+    <ng-content />
+  </div>
+</article>

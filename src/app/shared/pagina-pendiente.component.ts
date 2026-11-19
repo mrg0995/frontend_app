@@ -10,7 +10,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
       <h1>{{ titulo }}</h1>
       <p class="muted">{{ detalle }}</p>
       <p class="small muted">Apartado pendiente de desarrollar por el equipo.</p>
-      <a routerLink="/articulos" class="btn btn-outline">Volver al inicio</a>
+      <a routerLink="/" class="btn btn-outline">Volver al inicio</a>
     </section>
   `,
   styles: [`
