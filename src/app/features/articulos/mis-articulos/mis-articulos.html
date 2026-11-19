@@ -1,0 +1,52 @@
+<section>
+  <div class="cabecera">
+    <h1>Mis artículos</h1>
+    <a routerLink="/articulos/nuevo" class="btn btn-accent">+ Vender</a>
+  </div>
+
+  @if (aviso()) {
+    <div class="aviso" role="status">{{ aviso() }}</div>
+  }
+  @if (error()) {
+    <div class="alert" role="alert">{{ error() }}</div>
+  }
+
+  @if (cargando() && lista().length === 0) {
+    <p class="muted">Cargando tus artículos…</p>
+  } @else if (lista().length === 0) {
+    <div class="card vacio">
+      <h2>Todavía no tienes artículos</h2>
+      <p class="muted">Sube tu primera joya: se guarda como borrador y la publicas cuando quieras.</p>
+      <a routerLink="/articulos/nuevo" class="btn btn-accent">+ Vender una joya</a>
+    </div>
+  } @else {
+    <div class="rejilla-articulos">
+      @for (a of lista(); track a.id) {
+        <app-articulo-card [articulo]="a" [mostrarEstado]="true">
+          @if (confirmandoBorrar() === a.id) {
+            <span class="pregunta">¿Borrar este artículo?</span>
+            <button type="button" class="btn btn-sm btn-peligro" (click)="borrar(a)">Sí, borrar</button>
+            <button type="button" class="btn btn-sm btn-outline" (click)="cancelarBorrar()">No</button>
+          } @else {
+            @switch (a.estado) {
+              @case ('borrador') {
+                <a class="btn btn-outline btn-sm" [routerLink]="['/articulos', a.id, 'editar']">Editar</a>
+                <button type="button" class="btn btn-primary btn-sm" [disabled]="ocupado() === a.id" (click)="publicar(a)">Publicar</button>
+              }
+              @case ('publicado') {
+                <a class="btn btn-outline btn-sm" [routerLink]="['/articulos', a.id, 'editar']">Editar</a>
+                <button type="button" class="btn btn-primary btn-sm" [disabled]="ocupado() === a.id" (click)="marcarVendido(a)">Vendido</button>
+              }
+              @case ('en_revision') {
+                <span class="small muted">Lo está revisando un moderador</span>
+              }
+            }
+            @if (a.estado !== 'en_revision') {
+              <button type="button" class="btn btn-outline btn-sm" [disabled]="ocupado() === a.id" (click)="pedirBorrar(a)">Borrar</button>
+            }
+          }
+        </app-articulo-card>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,50 @@
+.cabecera {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.cabecera h1 {
+  margin: 0;
+}
+
+/* Mensaje verde cuando una acción ha ido bien */
+.aviso {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  background: #e3f4e8;
+  color: #1b7f3b;
+}
+
+.alert {
+  margin-bottom: 1rem;
+}
+
+.vacio {
+  max-width: 520px;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.vacio h2 {
+  margin-top: 0;
+}
+
+/* Confirmación de borrado dentro de la tarjeta */
+.pregunta {
+  width: 100%;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.btn-peligro {
+  background: var(--color-error);
+  color: #fff;
+}
+
+.btn-peligro:hover {
+  filter: brightness(0.9);
+}
