@@ -1,0 +1,105 @@
+<section class="card formulario">
+  <a routerLink="/mis-articulos" class="volver small">← Mis artículos</a>
+  <h1>{{ idArticulo() ? 'Editar artículo' : 'Vender una joya' }}</h1>
+
+  @if (cargando()) {
+    <p class="muted">Cargando el artículo…</p>
+  } @else {
+    @if (error()) {
+      <div class="alert" role="alert">{{ error() }}</div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="guardar(false)" novalidate>
+      <!-- Fotos -->
+      <div class="field">
+        <label for="fotos">Fotos <span class="muted small">({{ totalFotos() }} de {{ maxFotos }} · la primera es la portada)</span></label>
+        <div class="fotos">
+          @for (f of fotosSubidas(); track f.id; let i = $index) {
+            <div class="foto">
+              @if (f.url) { <img [src]="f.url" alt="" /> } @else { <span class="sin-imagen">Foto {{ i + 1 }}</span> }
+              @if (i === 0) { <span class="portada">Portada</span> }
+              <button type="button" class="quitar" (click)="borrarFotoSubida(f)" aria-label="Borrar foto">×</button>
+            </div>
+          }
+          @for (f of fotosNuevas(); track f.vista; let i = $index) {
+            <div class="foto nueva">
+              <img [src]="f.vista" alt="" />
+              @if (fotosSubidas().length === 0 && i === 0) { <span class="portada">Portada</span> }
+              <button type="button" class="quitar" (click)="quitarFotoNueva(f)" aria-label="Quitar foto">×</button>
+            </div>
+          }
+          @if (totalFotos() < maxFotos) {
+            <label class="anadir" for="fotos">
+              <span>+</span>
+              <span class="small">Añadir</span>
+            </label>
+          }
+        </div>
+        <input id="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple (change)="elegirFotos($event)" />
+        <span class="muted small">JPG, PNG o WEBP de 2 MB como máximo.</span>
+        @if (errorFotos()) { <span class="error">{{ errorFotos() }}</span> }
+      </div>
+
+      <!-- Datos -->
+      <div class="field">
+        <label for="titulo">Título</label>
+        <input id="titulo" formControlName="titulo" maxlength="120" [class.invalid]="mostrar('titulo')" />
+        @if (mostrar('titulo')) { <span class="error">El título es obligatorio (120 caracteres como máximo).</span> }
+      </div>
+
+      <div class="field">
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" rows="4" formControlName="descripcion" [class.invalid]="mostrar('descripcion')"></textarea>
+        @if (mostrar('descripcion')) { <span class="error">La descripción es obligatoria.</span> }
+      </div>
+
+      <div class="dos-columnas">
+        <div class="field">
+          <label for="precio">Precio (€)</label>
+          <input id="precio" type="number" min="0" step="0.01" formControlName="precio" [class.invalid]="mostrar('precio')" />
+          @if (mostrar('precio')) { <span class="error">Pon un precio de 0 € o más.</span> }
+        </div>
+
+        <div class="field">
+          <label for="categoria">Categoría</label>
+          <select id="categoria" formControlName="id_categoria" [class.invalid]="mostrar('id_categoria')">
+            <option [ngValue]="null" disabled>Elige una</option>
+            @for (c of categorias(); track c.id) {
+              <option [ngValue]="c.id">{{ c.nombre }}</option>
+            }
+          </select>
+          @if (mostrar('id_categoria')) { <span class="error">Elige una categoría.</span> }
+        </div>
+      </div>
+
+      <div class="dos-columnas">
+        <div class="field">
+          <label for="estado_conservacion">Estado de conservación</label>
+          <select id="estado_conservacion" formControlName="estado_conservacion" [class.invalid]="mostrar('estado_conservacion')">
+            <option value="" disabled>Elige uno</option>
+            @for (c of conservaciones; track c.value) {
+              <option [value]="c.value">{{ c.label }}</option>
+            }
+          </select>
+          @if (mostrar('estado_conservacion')) { <span class="error">Elige el estado de conservación.</span> }
+        </div>
+
+        <div class="field">
+          <label for="ubicacion">Ubicación <span class="muted small">(opcional)</span></label>
+          <input id="ubicacion" formControlName="ubicacion" placeholder="Si la dejas vacía, la de tu perfil" />
+        </div>
+      </div>
+
+      <div class="botones">
+        <button type="submit" class="btn btn-outline" [disabled]="guardando()">
+          {{ idArticulo() ? 'Guardar cambios' : 'Guardar borrador' }}
+        </button>
+        @if (puedePublicar()) {
+          <button type="button" class="btn btn-accent" [disabled]="guardando()" (click)="guardar(true)">
+            {{ guardando() ? 'Guardando…' : 'Publicar' }}
+          </button>
+        }
+      </div>
+    </form>
+  }
+</section>

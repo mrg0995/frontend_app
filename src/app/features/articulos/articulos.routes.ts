@@ -12,14 +12,12 @@ export const ARTICULOS_ROUTES: Routes = [
   {
     path: 'nuevo',
     canActivate: [authGuard],
-    loadComponent: () => import('../../shared/pagina-pendiente.component').then(m => m.PaginaPendienteComponent),
-    data: { titulo: 'Vender una joya', detalle: 'Aquí irá el formulario para crear un artículo.' }
+        loadComponent: () => import('./formulario-articulo/formulario-articulo').then(m => m.FormularioArticulo)
   },
   {
     path: ':id/editar',
     canActivate: [authGuard],
-    loadComponent: () => import('../../shared/pagina-pendiente.component').then(m => m.PaginaPendienteComponent),
-    data: { titulo: 'Editar artículo', detalle: 'Aquí irá el formulario para editar el artículo.' }
+        loadComponent: () => import('./formulario-articulo/formulario-articulo').then(m => m.FormularioArticulo)
   },
   {
     // El detalle es público: no lleva authGuard

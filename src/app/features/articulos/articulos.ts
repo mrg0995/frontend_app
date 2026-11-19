@@ -10,6 +10,7 @@ import {
   EstadoConservacion,
   Foto
 } from '../../core/models';
+import { CATEGORIAS_DEMO } from '../../core/datos-demo';
 
 /**
  * Cambiar a true cuando el back de artículos y fotos esté en develop.
@@ -35,21 +36,14 @@ export interface DatosArticulo {
 
 /**
  * Servicio de artículos del usuario: Mis artículos, crear, editar, borrar,
- * publicar, marcar como vendido, categorías y fotos.
+ * publicar, marcar como vendido y fotos.
+ * Las categorías están en core/categorias.ts (servicio de Javi).
  * Las rutas y las respuestas son las del contrato de docs/api.md.
  */
 @Injectable({ providedIn: 'root' })
 export class Articulos {
   private http = inject(HttpClient);
   private auth = inject(AuthService);
-
-  // ---------- Categorías ----------
-
-  /** GET /api/categorias */
-  getCategorias(): Observable<Categoria[]> {
-    if (!USAR_BACK_REAL) return this.demoRespuesta([...CATEGORIAS_DEMO]);
-    return this.http.get<Categoria[]>(`${API}/categorias`);
-  }
 
   // ---------- Leer ----------
 
@@ -257,14 +251,6 @@ function aTarjeta(a: Articulo): ArticuloTarjeta {
 function copia(a: Articulo): Articulo {
   return { ...a, categoria: { ...a.categoria }, vendedor: { ...a.vendedor }, fotos: a.fotos.map(f => ({ ...f })) };
 }
-
-const CATEGORIAS_DEMO: Categoria[] = [
-  { id: 1, nombre: 'Anillos' },
-  { id: 2, nombre: 'Collares' },
-  { id: 3, nombre: 'Pendientes' },
-  { id: 4, nombre: 'Pulseras' },
-  { id: 5, nombre: 'Otros' }
-];
 
 /** Un artículo de prueba en cada estado, del usuario que ha iniciado sesión */
 function crearDemo(idUsuario: number, nombre: string): Articulo[] {
