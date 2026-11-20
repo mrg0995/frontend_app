@@ -13,5 +13,15 @@
   <p class="pendiente">Próximamente.</p>
 
   <h3>Artículos publicados</h3>
-  <p class="pendiente">Próximamente.</p>
+  @if (articulos() === null) {
+    <p class="pendiente">Cargando…</p>
+  } @else if (articulos()!.length === 0) {
+    <p class="pendiente">Todavía no tiene artículos publicados.</p>
+  } @else {
+    <div class="rejilla-articulos">
+      @for (a of articulos(); track a.id) {
+        <app-articulo-card [articulo]="a" />
+      }
+    </div>
+  }
 }

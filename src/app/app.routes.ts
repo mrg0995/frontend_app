@@ -20,6 +20,10 @@ export const routes: Routes = [
     loadChildren: () => import('./features/perfil/perfil.routes').then(m => m.PERFIL_ROUTES)
   },
   {
+    path: 'usuarios/:id',
+    loadComponent: () => import('./features/perfil/perfil-publico/perfil-publico').then(m => m.PerfilPublico)
+  },
+  {
     path: 'articulos',
     loadChildren: () => import('./features/articulos/articulos.routes').then(m => m.ARTICULOS_ROUTES)
   },
