@@ -69,3 +69,9 @@ h3:first-of-type {
   margin: 0;
   color: var(--color-muted);
 }
+
+h3,
+.pendiente,
+.rejilla-articulos {
+  grid-column: 1 / -1;
+}
