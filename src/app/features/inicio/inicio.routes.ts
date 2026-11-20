@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
 
-// Portada de la web (/). De momento, página provisional
+// Portada de la web (/)
 export const INICIO_ROUTES: Routes = [
   {
     path: '',
-    loadComponent: () => import('../../shared/pagina-pendiente.component').then(m => m.PaginaPendienteComponent),
-    data: { titulo: 'Inicio', detalle: 'Aquí irá la portada: categorías y últimos artículos.' }
+    loadComponent: () => import('./inicio').then(m => m.Inicio)
   }
 ];

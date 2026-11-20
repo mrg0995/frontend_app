@@ -1,0 +1,92 @@
+<!-- 1 · Banner -->
+<section class="banner">
+  <div>
+    <h1>Dale una segunda vida a tus joyas</h1>
+    <p>Compra y vende anillos, collares, pendientes y pulseras entre particulares.</p>
+    <div class="banner-botones">
+      <a class="btn btn-accent" [routerLink]="auth.isLogged() ? '/articulos/nuevo' : '/auth/login'">+ Vender</a>
+      <a class="btn btn-claro" routerLink="/busqueda">Explorar</a>
+    </div>
+  </div>
+  <svg class="banner-gema" viewBox="-21 -13 42 34" aria-hidden="true">
+    <polygon points="-12,-12 12,-12 20,-4 0,20 -20,-4" />
+    <polyline points="-20,-4 20,-4" />
+    <polyline points="-12,-12 -6,-4 0,20 6,-4 12,-12" />
+    <polyline points="-6,-4 0,-12 6,-4" />
+  </svg>
+</section>
+
+<!-- 2 · Categorías -->
+<section class="seccion">
+  <h2>Explora por categorías</h2>
+  <div class="categorias">
+    @for (c of categorias(); track c.id) {
+      <a class="categoria" routerLink="/busqueda" [queryParams]="{ id_categoria: c.id }">
+        <span class="categoria-icono">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            @switch (c.nombre) {
+              @case ('Anillos') {
+                <circle cx="12" cy="14.5" r="6" />
+                <path d="M9.5 6.5 12 3.5l2.5 3L12 8.5z" />
+              }
+              @case ('Collares') {
+                <path d="M5 4c0 7 3 10 7 10s7-3 7-10" />
+                <path d="M12 14v2" />
+                <path d="m10 18 2-2 2 2-2 3z" />
+              }
+              @case ('Pendientes') {
+                <path d="M12 3a2.5 2.5 0 0 1 2.5 2.5c0 1.5-2.5 2.5-2.5 4" />
+                <path d="M12 12c-2 2.5-3 4.3-3 5.8a3 3 0 0 0 6 0c0-1.5-1-3.3-3-5.8z" />
+              }
+              @case ('Pulseras') {
+                <ellipse cx="12" cy="12" rx="8.5" ry="5.5" />
+                <ellipse cx="12" cy="12" rx="5.5" ry="3" />
+              }
+              @default {
+                <path d="M7 5h10l3 4-8 11-8-11z" />
+                <path d="M4 9h16" />
+              }
+            }
+          </svg>
+        </span>
+        {{ c.nombre }}
+      </a>
+    }
+  </div>
+</section>
+
+<!-- 3 · Novedades -->
+<section class="seccion">
+  <div class="seccion-titulo">
+    <h2>Novedades</h2>
+    <a routerLink="/busqueda">Ver todo →</a>
+  </div>
+  @if (error()) {
+    <div class="alert">{{ error() }}</div>
+  } @else if (novedades() === null) {
+    <p class="muted">Cargando…</p>
+  } @else if (novedades()!.length === 0) {
+    <p class="muted">Todavía no hay joyas publicadas. ¡Sé el primero en vender!</p>
+  } @else {
+    <div class="rejilla-articulos novedades">
+      @for (a of novedades(); track a.id) {
+        <app-articulo-card [articulo]="a" />
+      }
+    </div>
+  }
+</section>
+
+<!-- 4 · Cerca de ti: solo con sesión, ubicación en el perfil y algún artículo -->
+@if (articulosCerca().length > 0) {
+  <section class="seccion">
+    <div class="seccion-titulo">
+      <h2>Cerca de ti · {{ ciudad() }}</h2>
+      <a routerLink="/busqueda" [queryParams]="{ ubicacion: ciudad() }">Ver todo →</a>
+    </div>
+    <div class="rejilla-articulos">
+      @for (a of articulosCerca(); track a.id) {
+        <app-articulo-card [articulo]="a" />
+      }
+    </div>
+  </section>
+}

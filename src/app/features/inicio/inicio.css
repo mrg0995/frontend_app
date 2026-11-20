@@ -1,0 +1,135 @@
+/* ---------- Banner ---------- */
+.banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.5rem 2.5rem;
+  border-radius: 16px;
+  background: var(--color-primary);
+  color: #fff;
+  overflow: hidden;
+}
+
+.banner h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.banner p {
+  margin: 0;
+  color: #c9d0dc;
+  max-width: 440px;
+}
+
+.banner-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.btn-claro {
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
+}
+
+.btn-claro:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.banner-gema {
+  width: 170px;
+  flex: none;
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+/* ---------- Secciones ---------- */
+.seccion {
+  margin-top: 2.5rem;
+}
+
+.seccion h2 {
+  margin: 0 0 1rem;
+  font-size: 1.3rem;
+}
+
+.seccion-titulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.seccion-titulo a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------- Categorías ---------- */
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 0.8rem;
+}
+
+.categoria {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  color: var(--color-text);
+  font-weight: 600;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.categoria:hover {
+  border-color: var(--color-accent);
+}
+
+.categoria-icono {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--color-accent-soft);
+  color: var(--color-primary);
+}
+
+.categoria-icono svg {
+  width: 30px;
+  height: 30px;
+}
+
+/* ---------- Móvil ---------- */
+@media (max-width: 760px) {
+  .banner {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .banner-gema {
+    display: none;
+  }
+
+  .categorias {
+    display: flex;
+    overflow-x: auto;
+    padding-bottom: 0.3rem;
+  }
+
+  .categoria {
+    flex: 0 0 96px;
+  }
+
+  .novedades app-articulo-card:nth-child(n + 7) {
+    display: none;
+  }
+}
