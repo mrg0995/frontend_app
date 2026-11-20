@@ -24,6 +24,11 @@ export const routes: Routes = [
     loadChildren: () => import('./features/articulos/articulos.routes').then(m => m.ARTICULOS_ROUTES)
   },
   {
+    path: 'mis-articulos',
+    canActivate: [authGuard],
+    loadComponent: () => import('./features/articulos/mis-articulos/mis-articulos').then(m => m.MisArticulos)
+  },
+  {
     path: 'busqueda',
     loadChildren: () => import('./features/busqueda/busqueda.routes').then(m => m.BUSQUEDA_ROUTES)
   },
