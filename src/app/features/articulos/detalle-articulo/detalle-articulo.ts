@@ -1,6 +1,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../../core/auth.service';
 import { errMsg } from '../../../core/api.service';
@@ -22,6 +23,8 @@ import { Articulos } from '../articulos';
 })
 export class DetalleArticulo implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private location = inject(Location);
   private articulos = inject(Articulos);
   protected auth = inject(AuthService);
 
@@ -82,5 +85,20 @@ export class DetalleArticulo implements OnInit {
 
   verFoto(i: number) {
     this.fotoActual.set(i);
+  }
+
+  /**
+   * «← Volver»: vuelve a la página de la que vienes (búsqueda, Mis artículos, portada, un perfil…).
+   * Si se ha entrado directamente con el enlace del artículo, no hay página anterior en la web,
+   * así que lleva a la búsqueda.
+   * Angular guarda en history.state un navigationId que empieza en 1 con la primera página que se abre.
+   */
+  volver() {
+    const navegacion = (this.location.getState() as { navigationId?: number } | null)?.navigationId ?? 1;
+    if (navegacion > 1) {
+      this.location.back();
+    } else {
+      this.router.navigate(['/busqueda']);
+    }
   }
 }

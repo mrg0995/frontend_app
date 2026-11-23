@@ -1,7 +1,16 @@
 .volver {
   display: inline-block;
   margin-bottom: 1rem;
-  text-decoration: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--color-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.volver:hover {
+  text-decoration: underline;
 }
 
 /* Galería a la izquierda y datos a la derecha; uno debajo del otro en el móvil */

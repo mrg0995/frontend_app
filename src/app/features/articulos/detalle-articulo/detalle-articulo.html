@@ -7,7 +7,7 @@
     <a routerLink="/busqueda" class="btn btn-primary">Ver otras joyas</a>
   </div>
 } @else if (articulo(); as a) {
-  <a routerLink="/busqueda" class="volver small">← Volver a la búsqueda</a>
+  <button type="button" class="volver small" (click)="volver()">← Volver</button>
 
   <div class="detalle">
     <!-- Galería -->
