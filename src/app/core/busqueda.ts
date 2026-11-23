@@ -2,7 +2,6 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ArticuloTarjeta, EstadoConservacion } from './models';
-import { buscarEnDemo } from './datos-demo';
 
 /** Orden de los resultados */
 export type OrdenBusqueda = 'recientes' | 'precio_asc' | 'precio_desc';

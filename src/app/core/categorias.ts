@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, delay, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Categoria } from './models';
-import { CATEGORIAS_DEMO } from './datos-demo';
 
 /**
  * Categorías de las joyas (Anillos, Collares…).
