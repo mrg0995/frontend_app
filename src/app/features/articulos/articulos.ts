@@ -17,7 +17,7 @@ import { CATEGORIAS_DEMO, buscarEnDemo } from '../../core/datos-demo';
  * Mientras es false, el servicio trabaja con datos de prueba en memoria
  * (se pierden al recargar la página) que imitan las respuestas de docs/api.md.
  */
-const USAR_BACK_REAL = false;
+const USAR_BACK_REAL = true;
 
 const API = '/api';
 
