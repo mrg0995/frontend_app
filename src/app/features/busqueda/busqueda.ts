@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { switchMap, tap } from 'rxjs';
+import { EMPTY, catchError, switchMap, tap } from 'rxjs';
 import { Busqueda as BusquedaService, FiltrosBusqueda, OrdenBusqueda } from '../../core/busqueda';
 import { Categorias } from '../../core/categorias';
 import { ArticuloTarjeta, CONDITION_LABEL, Categoria, EstadoConservacion } from '../../core/models';
@@ -79,14 +79,19 @@ export class Busqueda implements OnInit {
           this.articulos.set(null);
           this.error.set('');
         }),
-        switchMap(() => this.busqueda.buscar({ ...this.filtros(), por_pagina: POR_PAGINA })),
+        switchMap(() =>
+          this.busqueda.buscar({ ...this.filtros(), por_pagina: POR_PAGINA }).pipe(
+            // Si esta búsqueda falla, enseñamos el error y seguimos escuchando la URL
+            catchError((err) => {
+              this.error.set(err.error?.message ?? 'No se han podido cargar los artículos. Inténtalo de nuevo.');
+              return EMPTY;
+            }),
+          ),
+        ),
       )
-      .subscribe({
-        next: (r) => {
-          this.articulos.set(r.articulos);
-          this.totalArticulos.set(r.total);
-        },
-        error: () => this.error.set('No se han podido cargar los artículos. Inténtalo de nuevo.'),
+      .subscribe((r) => {
+        this.articulos.set(r.articulos);
+        this.totalArticulos.set(r.total);
       });
   }
 

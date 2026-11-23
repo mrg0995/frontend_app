@@ -13,8 +13,6 @@ export class Categorias {
   private http = inject(HttpClient);
 
   getCategorias(): Observable<Categoria[]> {
-    // DATOS DE PRUEBA: borrar esta línea cuando Mario suba Back 1
-    return of(CATEGORIAS_DEMO).pipe(delay(300));
-    // return this.http.get<Categoria[]>('/api/categorias'); // BACK REAL: descomentar cuando esté la ruta
+    return this.http.get<Categoria[]>('/api/categorias');
   }
 }
