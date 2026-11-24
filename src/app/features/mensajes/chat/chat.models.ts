@@ -8,7 +8,7 @@ export interface ArticuloResumen {
   id: number;
   titulo: string;
   precio: number;
-  foto?: string; //
+  foto?: string;
   usuarioId: number; 
 }
 

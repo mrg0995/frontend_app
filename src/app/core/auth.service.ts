@@ -31,11 +31,11 @@ export class AuthService {
         }
     }
 
-    login(credenciales: { email: string; password: string }) {
-        return this.http.post<{ token: string; usuario: any }>('http://localhost:3000/api/auth/login', credenciales).pipe(
-          tap((respuesta) => {
-            localStorage.setItem('token', respuesta.token);
-            this.socketService.conectar(respuesta.token);
+    login(email: string, password: string) {
+        return this.http.post<{ token: string; usuario: any }>('/api/auth/login', { email, password }).pipe(
+          tap((res) => {
+            localStorage.setItem('token', res.token);
+            this.socketService.conectar(res.token);
           })
         );
     }
@@ -55,12 +55,10 @@ export class AuthService {
         this.user.set(u);
     }
 
-    logout() {
+    logout(): void {
         this.socketService.desconectar();
         localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        this.user.set(null);
-        this.router.navigate(['/']);
+        localStorage.removeItem('usuario');
     }
 
     homeUrl(): string {

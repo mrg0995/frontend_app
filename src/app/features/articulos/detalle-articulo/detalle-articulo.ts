@@ -41,8 +41,8 @@ readonly esMiArticulo = computed(() => {
   return art.vendedorId === miId;
 });
     
-contactarVendedor(): void {
-    const art = this.articulo();
+contactar(): void {
+    const art = this.articulo() as Record<string, unknown> | null;
     if (!art) return;
   
     // 1. Sin sesión -> al login
@@ -58,8 +58,8 @@ contactarVendedor(): void {
   
     // 2. POST /api/conversaciones y navegar a /mensajes/:id
     this.http
-      .post<{ id: number }>('http://localhost:3000/api/conversaciones', {
-        articuloId: art.id,
+      .post<{ id: number }>('/api/conversaciones', {
+        id_articulo: art['id'],
       })
       .subscribe({
         next: (conversacion) => {
