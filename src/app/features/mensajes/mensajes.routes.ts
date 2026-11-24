@@ -8,7 +8,7 @@ export const MENSAJES_ROUTES: Routes = [
     },
     
 {
-    path: 'mensajes/:id',
+    path: ':id',
     loadComponent: () => import('./chat/chat.component').then((m) => m.ChatComponent),
     }
 ];

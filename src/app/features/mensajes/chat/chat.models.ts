@@ -1,29 +1,29 @@
 export interface UsuarioResumen {
-  id: number;
+  id_emisor: number;
   nombre: string;
   avatar?: string;
 }
 
 export interface ArticuloResumen {
-  id: number;
+  id_emisor: number;
   titulo: string;
   precio: number;
-  foto?: string;
-  usuarioId: number; 
+  foto_portada: string;
+  otro_usuario: number; 
 }
 
 export interface ConversacionDetalle {
-  id: number; // o string
+  id_emisor: number;
   articulo: ArticuloResumen;
-  otroUsuario: UsuarioResumen;
+  otro_usuario: UsuarioResumen;
 }
 
 export interface Mensaje {
-  id: number;
-  idConversacion: number;
-  remitenteId: number;
+  id_emisor: number;
+  id_conversacion: number;
+  id_remitente: number;
   texto: string;
-  createdAt: string;
+  fecha_creacion: string;
 }
 
 export interface NotificacionSocket {

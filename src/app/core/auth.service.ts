@@ -5,79 +5,112 @@ import { tap } from 'rxjs';
 import { Usuario } from './models';
 import { SocketService } from './socket.service';
 
-interface Session { message?: string; token: string; usuario: Usuario; }
+interface Session {
+  message?: string;
+  token: string;
+  usuario?: Usuario;
+  user?: Usuario;
+}
 
 function readUser(): Usuario | null {
-    try { return JSON.parse(localStorage.getItem('user') || 'null'); } catch { return null; }
+  try {
+    return JSON.parse(localStorage.getItem('user') || 'null');
+  } catch {
+    return null;
+  }
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-    private http = inject(HttpClient);
-    private router = inject(Router);
-    private socketService = inject(SocketService);
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  private socketService = inject(SocketService);
 
-    user = signal<Usuario | null>(readUser());
-    isLogged = computed(() => !!this.user());
-    role = computed(() => this.user()?.rol ?? null);
-    isStaff = computed(() => ['moderador', 'administrador'].includes(this.user()?.rol ?? ''));
+  private readonly _user = signal<Usuario | null>(readUser());
+  readonly user = this._user.asReadonly();
+  isLogged = computed(() => !!this.user());
+  role = computed(() => this.user()?.rol ?? null);
+  isStaff = computed(() => ['moderador', 'administrador'].includes(this.user()?.rol ?? ''));
 
-    get token(): string | null { return localStorage.getItem('token'); }
+  get token(): string | null {
+    return localStorage.getItem('token');
+  }
 
-    constructor() {
-        const token = this.getToken();
-        if (token) {
-          this.socketService.conectar(token);
-        }
+  constructor() {
+    const token = this.getToken();
+    if (token) {
+      this.socketService.conectar(token);
     }
+  }
 
-    login(email: string, password: string) {
-        return this.http.post<{ token: string; usuario: any }>('/api/auth/login', { email, password }).pipe(
-          tap((res) => {
-            localStorage.setItem('token', res.token);
-            this.socketService.conectar(res.token);
-          })
-        );
-    }
+  login(email: string, password: string) {
+    return this.http
+      .post<Session>('/api/auth/login', { email, password })
+      .pipe(
+        tap((res) => {
+          this.setSession(res);
+          this.socketService.conectar(res.token);
+        })
+      );
+  }
 
-    register(nombre_usuario: string, email: string, password: string) {
-        return this.http.post<Session>('/api/auth/registro', { nombre_usuario, email, password })
-            .pipe(tap(s => this.setSession(s)));
-    }
+  register(nombre_usuario: string, email: string, password: string) {
+    return this.http
+      .post<Session>('/api/auth/registro', { nombre_usuario, email, password })
+      .pipe(
+        tap((s) => {
+          this.setSession(s);
+          if (s.token) {
+            this.socketService.conectar(s.token);
+          }
+        })
+      );
+  }
 
-    private setSession(s: Session) {
-        localStorage.setItem('token', s.token);
-        this.updateUser(s.usuario);
-    }
+  private setSession(s: Session) {
+    localStorage.setItem('token', s.token);
+    const usuario = s.usuario ?? s.user ?? null;
+    this.updateUser(usuario);
+  }
 
-    updateUser(u: Usuario) {
-        localStorage.setItem('user', JSON.stringify(u));
-        this.user.set(u);
+  updateUser(u: Usuario | null) {
+    if (u) {
+      localStorage.setItem('user', JSON.stringify(u));
+      this._user.set(u);
+    } else {
+      localStorage.removeItem('user');
+      this._user.set(null);
     }
+  }
 
-    logout(): void {
-        this.socketService.desconectar();
-        localStorage.removeItem('token');
-        localStorage.removeItem('usuario');
-    }
+  logout(): void {
+    this.socketService.desconectar();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this._user.set(null);
+    this.router.navigate(['/login']);
+  }
 
-    homeUrl(): string {
-        switch (this.role()) {
-            case 'administrador': return '/admin';
-            case 'moderador': return '/moderacion';
-            default: return '/';
-        }
+  homeUrl(): string {
+    switch (this.role()) {
+      case 'administrador':
+        return '/admin';
+      case 'moderador':
+        return '/moderacion';
+      default:
+        return '/';
     }
+  }
 
-    getToken(): string | null {
-        return localStorage.getItem('token');
-    }
-    
-    estaAutenticado(): boolean {
-        return !!this.getToken();
-    }
-    
-    getUsuarioActualId(): number | null {
-        return this.user()?.id ?? null;
-    }   
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  estaAutenticado(): boolean {
+    return !!this.getToken();
+  }
+
+  getUsuarioActualId(): number | null {
+    return this.user()?.id ?? null;
+  }
 }
