@@ -1,5 +1,5 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
@@ -22,14 +22,56 @@ import { Articulos } from '../articulos';
   styleUrl: './detalle-articulo.css'
 })
 export class DetalleArticulo implements OnInit {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private location = inject(Location);
-  private articulos = inject(Articulos);
-  protected auth = inject(AuthService);
+    private route = inject(ActivatedRoute);
+    private http = inject(HttpClient);
+    private router = inject(Router);
+    private location = inject(Location);
+    private articulos = inject(Articulos);
+    protected auth = inject(AuthService);
 
   protected readonly conservacion = CONDITION_LABEL;
-  protected readonly estados = STATUS_LABEL;
+    protected readonly estados = STATUS_LABEL;
+    
+    readonly enviandoConversacion = signal(false);
+
+readonly esMiArticulo = computed(() => {
+  const art = this.articulo();
+  const miId = this.auth.getUsuarioActualId();
+  if (!art || miId === null) return false;
+  return art.vendedorId === miId;
+});
+    
+contactarVendedor(): void {
+    const art = this.articulo();
+    if (!art) return;
+  
+    // 1. Sin sesión -> al login
+    if (!this.auth.estaAutenticado()) {
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: this.router.url },
+      });
+      return;
+    }
+  
+    if (this.enviandoConversacion()) return;
+    this.enviandoConversacion.set(true);
+  
+    // 2. POST /api/conversaciones y navegar a /mensajes/:id
+    this.http
+      .post<{ id: number }>('http://localhost:3000/api/conversaciones', {
+        articuloId: art.id,
+      })
+      .subscribe({
+        next: (conversacion) => {
+          this.enviandoConversacion.set(false);
+          this.router.navigate(['/mensajes', conversacion.id]);
+        },
+        error: (err) => {
+          this.enviandoConversacion.set(false);
+          console.error('Error al iniciar conversación:', err);
+        },
+      });
+  }
 
   articulo = signal<Articulo | null>(null);
   cargando = signal(true);

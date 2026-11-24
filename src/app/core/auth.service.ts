@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { Usuario } from './models';
+import { SocketService } from './socket.service';
 
 interface Session { message?: string; token: string; usuario: Usuario; }
 
@@ -14,6 +15,7 @@ function readUser(): Usuario | null {
 export class AuthService {
     private http = inject(HttpClient);
     private router = inject(Router);
+    private socketService = inject(SocketService);
 
     user = signal<Usuario | null>(readUser());
     isLogged = computed(() => !!this.user());
@@ -22,8 +24,20 @@ export class AuthService {
 
     get token(): string | null { return localStorage.getItem('token'); }
 
-    login(email: string, password: string) {
-        return this.http.post<Session>('/api/auth/login', { email, password }).pipe(tap(s => this.setSession(s)));
+    constructor() {
+        const token = this.getToken();
+        if (token) {
+          this.socketService.conectar(token);
+        }
+    }
+
+    login(credenciales: { email: string; password: string }) {
+        return this.http.post<{ token: string; usuario: any }>('http://localhost:3000/api/auth/login', credenciales).pipe(
+          tap((respuesta) => {
+            localStorage.setItem('token', respuesta.token);
+            this.socketService.conectar(respuesta.token);
+          })
+        );
     }
 
     register(nombre_usuario: string, email: string, password: string) {
@@ -42,6 +56,7 @@ export class AuthService {
     }
 
     logout() {
+        this.socketService.desconectar();
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         this.user.set(null);
@@ -55,4 +70,16 @@ export class AuthService {
             default: return '/';
         }
     }
+
+    getToken(): string | null {
+        return localStorage.getItem('token');
+    }
+    
+    estaAutenticado(): boolean {
+        return !!this.getToken();
+    }
+    
+    getUsuarioActualId(): number | null {
+        return this.user()?.id ?? null;
+    }   
 }
