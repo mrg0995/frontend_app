@@ -1,0 +1,35 @@
+<h2>Mensajes</h2>
+
+@if (conversaciones() === null) {
+  <p class="pendiente">Cargando…</p>
+} @else if (conversaciones()!.length === 0) {
+  <p class="pendiente">Todavía no tienes mensajes. Cuando alguien te escriba sobre un artículo, aparecerá aquí.</p>
+} @else {
+  <ul class="bandeja">
+    @for (c of conversaciones(); track c.id) {
+      <li class="conversacion">
+        @if (c.articulo.foto) {
+          <img [src]="c.articulo.foto" [alt]="c.articulo.titulo" width="64" height="64" />
+        } @else {
+          <div class="sin-foto">Sin foto</div>
+        }
+
+        <div class="texto">
+          <strong>{{ c.otroUsuario.nombreUsuario }}</strong>
+          <span>{{ c.articulo.titulo }}</span>
+          @if (!c.articulo.publicado) {
+            <span class="vendido">Vendido</span>
+          }
+          @if (c.ultimoMensaje; as m) {
+            <p>{{ m.texto }}</p>
+            <small>{{ m.fecha | date: 'short' }}</small>
+          }
+        </div>
+
+        @if (c.noLeidos > 0) {
+          <span class="no-leidos">{{ c.noLeidos }}</span>
+        }
+      </li>
+    }
+  </ul>
+}
