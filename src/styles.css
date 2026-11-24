@@ -232,3 +232,77 @@ h1 {
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
   gap: 1rem;
 }
+
+
+/* ---------- Páginas de texto (ayuda y legal) ---------- */
+.pagina-texto {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.pagina-texto h1 {
+  margin: 0 0 0.4rem;
+}
+
+.pagina-texto-indice {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin-top: 0.8rem;
+}
+
+.pagina-texto section {
+  margin-top: 1.5rem;
+}
+
+.pagina-texto h2 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+.pagina-texto h3 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem;
+}
+
+.pagina-texto p,
+.pagina-texto li {
+  line-height: 1.6;
+}
+
+.pagina-texto ol,
+.pagina-texto ul {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+/* Comprar y vender, una al lado de la otra (una debajo de otra en el móvil) */
+.pasos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Preguntas frecuentes: cada pregunta se abre al pulsarla (details y summary de HTML) */
+.pagina-texto details {
+  border-top: 1px solid var(--color-border);
+  padding: 0.9rem 0;
+}
+
+.pagina-texto summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.pagina-texto details p {
+  margin: 0.6rem 0 0;
+}
+
+.aviso-academico {
+  margin: 1.5rem 0 0;
+  padding: 0.9rem 1.1rem;
+  background: var(--color-accent-soft);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+}
