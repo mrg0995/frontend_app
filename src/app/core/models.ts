@@ -89,3 +89,18 @@ export const DECISION_LABEL: Record<string, string> = {
     retirar: 'Artículo retirado',
     bloquear: 'Usuario bloqueado'
 };
+export interface Mensaje {
+  id: number;
+  conversacionId: number;
+  autorId: number;
+  texto: string;
+  fecha: string;
+}
+
+export interface Conversacion {
+  id: number;
+  articulo: { id: number; titulo: string; foto: string; publicado: boolean };
+  otroUsuario: { id: number; nombreUsuario: string; foto: string };
+  ultimoMensaje: Mensaje | null;
+  noLeidos: number;
+}
