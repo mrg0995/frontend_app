@@ -1,0 +1,189 @@
+.chat-layout {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 80px);
+    max-width: 800px;
+    margin: 0 auto;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #ffffff;
+  }
+  
+  /* Cabecera */
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+  }
+  
+  .articulo-foto {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 8px;
+    flex-shrink: 0;
+  }
+  
+  .chat-header-info {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .articulo-datos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .articulo-datos h2 {
+    margin: 0;
+    font-size: 1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .articulo-precio {
+    font-weight: 700;
+    color: #0f172a;
+  }
+  
+  .otro-usuario {
+    margin: 0.25rem 0 0;
+    font-size: 0.875rem;
+    color: #475569;
+  }
+  
+  /* Área de mensajes */
+  .chat-mensajes {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    background: #f1f5f9;
+  }
+  
+  .mensaje-fila {
+    display: flex;
+    width: 100%;
+  }
+  
+  /* Los míos a la derecha */
+  .mensaje-fila.mio {
+    justify-content: flex-end;
+  }
+  
+  /* Los del otro a la izquierda */
+  .mensaje-fila.otro {
+    justify-content: flex-start;
+  }
+  
+  .mensaje-burbuja {
+    max-width: 72%;
+    padding: 0.6rem 0.85rem;
+    border-radius: 12px;
+    word-break: break-word;
+  }
+  
+  .mensaje-fila.mio .mensaje-burbuja {
+    background: #2563eb;
+    color: #ffffff;
+    border-bottom-right-radius: 4px;
+  }
+  
+  .mensaje-fila.otro .mensaje-burbuja {
+    background: #ffffff;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    border-bottom-left-radius: 4px;
+  }
+  
+  .mensaje-texto {
+    margin: 0 0 0.25rem;
+    line-height: 1.4;
+  }
+  
+  .mensaje-hora {
+    display: block;
+    text-align: right;
+    font-size: 0.72rem;
+    opacity: 0.75;
+  }
+  
+  /* Errores y formulario */
+  .chat-error-socket {
+    padding: 0.5rem 1rem;
+    background: #fee2e2;
+    color: #b91c1c;
+    font-size: 0.875rem;
+    border-top: 1px solid #fecaca;
+  }
+  
+  .chat-form {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border-top: 1px solid #e2e8f0;
+    background: #ffffff;
+  }
+  
+  .input-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 0 0.75rem;
+  }
+  
+  .input-wrapper input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 0.65rem 0;
+    font-size: 0.95rem;
+  }
+  
+  .contador-caracteres {
+    color: #64748b;
+    font-size: 0.75rem;
+  }
+  
+  .chat-form button {
+    padding: 0 1.15rem;
+    border: none;
+    border-radius: 8px;
+    background: #2563eb;
+    color: #ffffff;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .chat-form button:disabled {
+    background: #94a3b8;
+    cursor: not-allowed;
+  }
+  
+  .form-validacion {
+    padding: 0 1rem 0.5rem;
+    color: #dc2626;
+  }
+  
+  .estado-info,
+  .estado-error {
+    text-align: center;
+    margin: auto;
+    color: #64748b;
+  }
+  
+  .estado-error {
+    color: #dc2626;
+  }

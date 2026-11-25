@@ -1,0 +1,64 @@
+  <section class="chat-layout">
+    <!-- CABECERA: Foto, título y precio del artículo + otro usuario -->
+    @if (conversacion(); as conv) {
+      <header class="chat-header">
+        <img
+          [src]="conv.articulo.foto_portada || 'assets/placeholder-articulo.png'"
+          [alt]="conv.articulo.titulo"
+          class="articulo-foto"
+        />
+        <div class="chat-header-info">
+          <div class="articulo-datos">
+            <h2>{{ conv.articulo.titulo }}</h2>
+            <span class="articulo-precio">{{ conv.articulo.precio | currency:'EUR' }}</span>
+          </div>
+          <p class="otro-usuario">
+            {{ conv.otro_usuario.nombre_usuario }}
+          </p>
+        </div>
+      </header>
+    }
+  
+    <!-- LISTADO DE MENSAJES -->
+    <div #contenedorMensajes class="chat-mensajes">
+      @if (cargando()) {
+        <p class="estado-info">Cargando...</p>
+      } @else if (errorCarga()) {
+        <p class="estado-error">{{ errorCarga() }}</p>
+      } @else {
+        @for (msg of mensajes(); track msg.id) {
+          <div class="mensaje-fila" [class.mio]="esMio(msg)" [class.otro]="!esMio(msg)">
+            <div class="mensaje-burbuja">
+              <p class="mensaje-texto">{{ msg.texto }}</p>
+              <span class="mensaje-hora">{{ msg.fecha_creacion | date:'HH:mm' }}</span>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  
+    <!-- ERROR DEL SOCKET (error_mensaje) -->
+    @if (errorMensaje(); as errSocket) {
+      <div class="chat-error-socket" role="alert">
+        {{ errSocket }}
+      </div>
+    }
+  
+    <!-- FORMULARIO DE ENVÍO -->
+    <form [formGroup]="formMensaje" (ngSubmit)="enviar()" class="chat-form">
+      <input
+        type="text"
+        formControlName="texto"
+        maxlength="1000"
+        placeholder="Escribe un mensaje..."
+        autocomplete="off"
+      />
+      <button type="submit" [disabled]="formMensaje.invalid">Enviar</button>
+    </form>
+  
+    @if (formMensaje.controls.texto.touched && formMensaje.controls.texto.invalid) {
+      <small class="form-validacion">
+        El mensaje es obligatorio y tiene un máximo de 1000 caracteres.
+      </small>
+    }
+  </section>

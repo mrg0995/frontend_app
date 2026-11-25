@@ -75,10 +75,14 @@
           }
           <a class="btn btn-outline" routerLink="/mis-articulos">Mis artículos</a>
         } @else {
-          <!-- Contactar (sprint 3) y Reportar (sprint 4) todavía no hacen nada -->
-          <button type="button" class="btn btn-accent" disabled title="Disponible próximamente">Contactar con el vendedor</button>
+          <!-- Reportar (sprint 4) todavía no hacen nada -->
           <button type="button" class="btn btn-outline btn-sm reportar" disabled title="Disponible próximamente">Reportar</button>
         }
+        @if (articulo() && !esMiArticulo()) {
+            <button type="button" class="btn btn-accent" [disabled]="enviandoConversacion()" (click)="contactar()">
+              {{ enviandoConversacion() ? 'Abriendo chat...' : 'Contactar' }}
+            </button>
+          }
       </div>
     </div>
   </div>
