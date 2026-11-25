@@ -108,7 +108,7 @@ export class ChatComponent {
         const texto = this.formMensaje.controls.texto.value.trim();
         if (!texto) return;
 
-        this.socketService.enviarMensaje(idActual, texto);
+        this.socketService.enviarMensaje(Number(idActual), texto);
         this.formMensaje.reset({ texto: '' });
     }
 
