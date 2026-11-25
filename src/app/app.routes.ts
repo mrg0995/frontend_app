@@ -56,5 +56,13 @@ export const routes: Routes = [
     canActivate: [roleGuard('administrador')],
     loadChildren: () => import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
   },
+  {
+    path: 'ayuda',
+    loadComponent: () => import('./features/ayuda/ayuda').then(m => m.Ayuda)
+  },
+  {
+    path: 'legal',
+    loadComponent: () => import('./features/legal/legal').then(m => m.Legal)
+  },
   { path: '**', redirectTo: '' }
 ];
