@@ -2,10 +2,10 @@ import { Component, ElementRef, ViewChild, effect, inject, signal } from '@angul
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { SocketService } from '../../../core/socket.service';
 import { AuthService } from '../../../core/auth.service';
-import { ConversacionDetalle, Mensaje } from './chat.models';
-import { HttpClient } from '@angular/common/http';
+import { Conversacion, Mensaje } from './chat.models';
 
 @Component({
     selector: 'app-chat',
@@ -24,11 +24,12 @@ export class ChatComponent {
     @ViewChild('contenedorMensajes') contenedorMensajes?: ElementRef<HTMLDivElement>;
 
     readonly conversacionId = signal<string | null>(null);
-    readonly conversacion = signal<ConversacionDetalle | null>(null);
+    readonly conversacion = signal<Conversacion | null>(null);
     readonly mensajes = signal<Mensaje[]>([]);
     readonly cargando = signal<boolean>(true);
     readonly errorCarga = signal<string | null>(null);
 
+    readonly errorMensaje = this.socketService.errorMensaje;
     readonly miUsuarioId = this.authService.getUsuarioActualId();
 
     readonly formMensaje = this.fb.nonNullable.group({
@@ -53,7 +54,7 @@ export class ChatComponent {
         });
 
         effect(() => {
-            const nuevo = this.socketService.ultimoMensaje();
+            const nuevo: Mensaje | null = this.socketService.ultimoMensaje();
             const idActual = this.conversacionId();
 
             if (!nuevo || !idActual) return;
@@ -73,7 +74,7 @@ export class ChatComponent {
         this.cargando.set(true);
         this.errorCarga.set(null);
 
-        this.http.get<ConversacionDetalle>(`/api/conversaciones/${id}`).subscribe({
+        this.http.get<Conversacion>(`/api/conversaciones/${id}`).subscribe({
             next: (conv) => this.conversacion.set(conv),
             error: () => this.errorCarga.set('Error al cargar la conversación'),
         });
@@ -93,7 +94,7 @@ export class ChatComponent {
     }
 
     private marcarLeida(id: string): void {
-        this.http.patch(`/api/conversaciones/${id}/leer`, {}).subscribe({
+        this.http.patch(`/api/conversaciones/${id}/leida`, {}).subscribe({
             error: (err) => console.error(err),
         });
     }

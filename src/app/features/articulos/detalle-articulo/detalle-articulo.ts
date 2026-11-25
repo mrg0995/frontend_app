@@ -38,7 +38,7 @@ export class DetalleArticulo implements OnInit {
         const art = this.articulo();
         const miId = this.auth.getUsuarioActualId();
         if (!art || miId === null) return false;
-        return
+        return String(art.vendedor.id) === String(miId);
     });
 
     contactar(): void {

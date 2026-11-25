@@ -1,11 +1,11 @@
 export interface UsuarioResumen {
-  id_emisor: number;
-  nombre: string;
+  id: number;
+  nombre_usuario: string;
   avatar?: string;
 }
 
 export interface ArticuloResumen {
-  id_emisor: number;
+  id: number;
   titulo: string;
   precio: number;
   foto_portada: string;
@@ -13,12 +13,13 @@ export interface ArticuloResumen {
 }
 
 export interface ConversacionDetalle {
-  id_emisor: number;
+  id: number;
   articulo: ArticuloResumen;
   otro_usuario: UsuarioResumen;
 }
 
 export interface Mensaje {
+  id: number;
   id_emisor: number;
   id_conversacion: number;
   id_remitente: number;
