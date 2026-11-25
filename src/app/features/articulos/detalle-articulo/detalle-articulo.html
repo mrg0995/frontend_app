@@ -79,7 +79,7 @@
           <button type="button" class="btn btn-outline btn-sm reportar" disabled title="Disponible próximamente">Reportar</button>
         }
         @if (articulo() && !esMiArticulo()) {
-            <button type="button" class="btn-contactar" [disabled]="enviandoConversacion()" (click)="contactar()">
+            <button type="button" class="btn btn-accent" [disabled]="enviandoConversacion()" (click)="contactar()">
               {{ enviandoConversacion() ? 'Abriendo chat...' : 'Contactar' }}
             </button>
           }

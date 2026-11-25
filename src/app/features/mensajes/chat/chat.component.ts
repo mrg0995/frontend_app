@@ -48,7 +48,6 @@ export class ChatComponent {
             const id = params.get('id');
             if (id) {
                 this.conversacionId.set(id);
-                this.socketService.limpiarErrorMensaje();
                 this.cargarTodo(id);
             }
         });

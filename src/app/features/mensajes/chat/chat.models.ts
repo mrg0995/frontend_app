@@ -12,7 +12,7 @@ export interface ArticuloResumen {
   otro_usuario: number; 
 }
 
-export interface ConversacionDetalle {
+export interface Conversacion {
   id: number;
   articulo: ArticuloResumen;
   otro_usuario: UsuarioResumen;
@@ -22,7 +22,6 @@ export interface Mensaje {
   id: number;
   id_emisor: number;
   id_conversacion: number;
-  id_remitente: number;
   texto: string;
   fecha_creacion: string;
 }
