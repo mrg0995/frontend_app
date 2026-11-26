@@ -7,28 +7,30 @@
 } @else {
   <ul class="bandeja">
     @for (c of conversaciones(); track c.id) {
-      <li class="conversacion">
-        @if (c.articulo.foto) {
-          <img [src]="c.articulo.foto" [alt]="c.articulo.titulo" width="64" height="64" />
-        } @else {
-          <div class="sin-foto">Sin foto</div>
-        }
-
-        <div class="texto">
-          <strong>{{ c.otroUsuario.nombreUsuario }}</strong>
-          <span>{{ c.articulo.titulo }}</span>
-          @if (!c.articulo.publicado) {
-            <span class="vendido">Vendido</span>
+      <li>
+        <a class="conversacion" [routerLink]="['/mensajes', c.id]">
+          @if (c.articulo.foto_portada) {
+            <img [src]="c.articulo.foto_portada" [alt]="c.articulo.titulo" width="64" height="64" />
+          } @else {
+            <div class="sin-foto">Sin foto</div>
           }
-          @if (c.ultimoMensaje; as m) {
-            <p>{{ m.texto }}</p>
-            <small>{{ m.fecha | date: 'short' }}</small>
-          }
-        </div>
 
-        @if (c.noLeidos > 0) {
-          <span class="no-leidos">{{ c.noLeidos }}</span>
-        }
+          <div class="texto">
+            <strong>{{ c.otro_usuario.nombre_usuario }}</strong>
+            <span>{{ c.articulo.titulo }}</span>
+            @if (c.articulo.estado !== 'publicado') {
+              <span class="vendido">Vendido</span>
+            }
+            @if (c.ultimo_mensaje; as m) {
+              <p>{{ m.texto }}</p>
+              <small>{{ m.fecha_creacion | date: 'short' }}</small>
+            }
+          </div>
+
+          @if (c.sin_leer > 0) {
+            <span class="no-leidos">{{ c.sin_leer }}</span>
+          }
+        </a>
       </li>
     }
   </ul>

@@ -91,16 +91,25 @@ export const DECISION_LABEL: Record<string, string> = {
 };
 export interface Mensaje {
   id: number;
-  conversacionId: number;
-  autorId: number;
+  id_conversacion: number;
+  id_emisor: number;
   texto: string;
-  fecha: string;
+  leido: boolean;
+  fecha_creacion: string;
 }
 
 export interface Conversacion {
   id: number;
-  articulo: { id: number; titulo: string; foto: string; publicado: boolean };
-  otroUsuario: { id: number; nombreUsuario: string; foto: string };
-  ultimoMensaje: Mensaje | null;
-  noLeidos: number;
+  articulo: {
+    id: number;
+    titulo: string;
+    precio: number;
+    estado: EstadoArticulo;
+    foto_portada: string | null;
+  };
+  otro_usuario: { id: number; nombre_usuario: string; foto_url: string | null };
+  soy: 'comprador' | 'vendedor';
+  ultimo_mensaje: { texto: string; id_emisor: number; fecha_creacion: string } | null;
+  sin_leer: number;
+  fecha_creacion: string;
 }
