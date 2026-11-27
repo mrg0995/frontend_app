@@ -1,6 +1,7 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../core/auth.service';
+import { ContadorMensajes } from '../../features/mensajes/contador-mensajes/contador-mensajes';
 
 /**
  * Menú de la cabecera.
@@ -10,7 +11,7 @@ import { AuthService } from '../../core/auth.service';
  */
 @Component({
   selector: 'app-site-menu',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ContadorMensajes],
   templateUrl: './site-menu.component.html',
   styleUrl: './site-menu.component.css',
 })
