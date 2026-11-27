@@ -18,7 +18,7 @@
           <div class="texto">
             <strong>{{ c.otro_usuario.nombre_usuario }}</strong>
             <span>{{ c.articulo.titulo }}</span>
-            @if (c.articulo.estado !== 'publicado') {
+             @if (c.articulo.estado === 'vendido') {
               <span class="vendido">Vendido</span>
             }
             @if (c.ultimo_mensaje; as m) {

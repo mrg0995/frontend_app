@@ -96,7 +96,7 @@
     @if (auth.isLogged()) {
       <a routerLink="/perfil">Mi perfil</a>
       <a routerLink="/mis-articulos">Mis artículos</a>
-      <a routerLink="/mensajes">Mensajes</a>
+      <a routerLink="/mensajes">Mensajes <app-contador-mensajes /></a>
       <a routerLink="/notificaciones">Avisos</a>
       @if (auth.isStaff()) {
         <a routerLink="/moderacion">Moderación</a>
